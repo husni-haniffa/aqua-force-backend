@@ -4,6 +4,7 @@ import ValidationError from "../domain/errors/validation-error";
 import Category from "../infrastructure/schema/category";
 import DuplicateError from "../domain/errors/duplicate-error";
 import NotFoundError from "../domain/errors/not-found-error";
+import { checkIfExists } from "../infrastructure/utils/checkIfExists";
 
 export const createCategory = async (
     req: Request,
@@ -19,7 +20,7 @@ export const createCategory = async (
 
         const { name } = parsed.data;
 
-        const exists = await checkIfCategoryExists(name);
+        const exists = await checkIfExists(Category, {name});
         if (exists) {
             throw new DuplicateError("Category already exists");
         }
@@ -90,7 +91,7 @@ export const updateCategory = async (
         }
 
         if (name && name !== category.name) {
-            const exists = await checkIfCategoryExists(name);
+            const exists = await checkIfExists(Category, {name});
             if (exists) {
                 throw new DuplicateError("Category already exists");
             }
@@ -131,8 +132,3 @@ export const deleteCategory = async (
         next(error)
     }
 }
-
-const checkIfCategoryExists = async (name: string): Promise<boolean> => {
-    const existingCategory = await Category.findOne({ name });
-    return !!existingCategory;
-};
