@@ -1,15 +1,29 @@
 import express from 'express';
 import { connectDatabase } from './infrastructure/database';
+import dotenv from 'dotenv'
+import categoryRouter from './api/category';
+import GlobalErrorHandler from './domain/middleware/global-error-handler';
 
 const app = express();
+dotenv.config()
+connectDatabase()
+app.use(express.json())
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (_, res) => {
-    res.send('Hello from TypeScript + Express!');
-});
+app.use('/categories', categoryRouter)
+app.use(GlobalErrorHandler)
 
-connectDatabase()
+const startServer = async () => {
+    try {
+        await connectDatabase();
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+
+    } catch (error) {
+        console.error("Server startup failed", error);
+    }
+};
+
+startServer();
