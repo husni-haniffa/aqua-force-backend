@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createCategoryDTO, updateCategoryDTO } from "../domain/dtos/category";
+import { createCategoryDTO } from "../domain/dtos/category";
 import ValidationError from "../domain/errors/validation-error";
 import Category from "../infrastructure/schema/category";
 import DuplicateError from "../domain/errors/duplicate-error";
@@ -76,7 +76,7 @@ export const updateCategory = async (
     next: NextFunction
 ) => {
     try {
-        const parsed = updateCategoryDTO.safeParse(req.body);
+        const parsed = createCategoryDTO.safeParse(req.body);
 
         if (!parsed.success) {
             throw new ValidationError(parsed.error.issues[0].message);
