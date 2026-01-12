@@ -3,6 +3,8 @@ import { connectDatabase } from './infrastructure/database';
 import dotenv from 'dotenv'
 import categoryRouter from './api/category';
 import GlobalErrorHandler from './domain/middleware/global-error-handler';
+import newsRouter from './api/news';
+import eventRouter from './api/event';
 
 const app = express();
 dotenv.config()
@@ -11,6 +13,9 @@ app.use(express.json())
 const PORT = process.env.PORT || 3000;
 
 app.use('/categories', categoryRouter)
+app.use('/news', newsRouter)
+app.use('/events', eventRouter)
+
 app.use(GlobalErrorHandler)
 
 const startServer = async () => {
