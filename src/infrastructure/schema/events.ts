@@ -16,7 +16,11 @@ const eventSchema = new mongoose.Schema(
         eventDate: {
             type: Date,
             required: true,
-            trim: true
+        },
+        eventTime: {
+            type: String,
+            required: true,
+            match: /^([01]\d|2[0-3]):([0-5]\d)$/,
         },
         location: {
             type: String,

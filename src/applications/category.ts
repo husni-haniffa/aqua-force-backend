@@ -25,7 +25,7 @@ export const createCategory = async (
             throw new DuplicateError("Category already exists");
         }
 
-        const category = await Category.create({ name });
+        const category = await Category.create(parsed.data);
 
         res.status(201).json({ 
             statusCode: 201, 
@@ -85,21 +85,21 @@ export const updateCategory = async (
 
         const { name } = parsed.data;
 
-        const category = await Category.findById(req.params.id);
+        const exists = await checkIfExists(Category, { name });
+        if (exists) {
+            throw new DuplicateError("Category already exists");
+        }
+
+        const id = req.params.id
+
+        const category = await Category.findById(id);
         if (!category) {
             throw new NotFoundError("Category not found");
         }
 
-        if (name && name !== category.name) {
-            const exists = await checkIfExists(Category, {name});
-            if (exists) {
-                throw new DuplicateError("Category already exists");
-            }
-        }
-
         const updatedCategory = await Category.findByIdAndUpdate(
-            req.params.id,
-            { name },
+            id,
+            parsed.data,
             { new: true, runValidators: true }
         );
 

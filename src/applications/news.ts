@@ -16,14 +16,14 @@ export const createNews = async(
         if(!parsed.success) {
             throw new ValidationError(parsed.error.issues[0].message)
         }
-        const { title, content } = parsed.data
+        const { title } = parsed.data
 
         const exists = await checkIfExists(News, {title});
         if (exists) {
             throw new DuplicateError("Title already exists");
         }
 
-        const news = await News.create({title, content})
+        const news = await News.create(parsed.data)
         res.status(201).json({
             statusCode: 201,
             message: "News created successfully"
@@ -80,23 +80,23 @@ export const updateNews = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { title, content } = parsed.data;
+        const { title } = parsed.data;
 
-        const news = await News.findById(req.params.id);
+        const exists = await checkIfExists(News, { title });
+        if (exists) {
+            throw new DuplicateError("News already exists");
+        }
+
+        const id = req.params.id
+
+        const news = await News.findById(id);
         if (!news) {
             throw new NotFoundError("News not found");
         }
 
-        if (title && title !== news.title) {
-            const exists = await checkIfExists(News, {title, content});
-            if (exists) {
-                throw new DuplicateError("News already exists");
-            }
-        }
-
         const updatedNews = await News.findByIdAndUpdate(
             req.params.id,
-            { title, content },
+            parsed.data,
             { new: true, runValidators: true }
         );
 

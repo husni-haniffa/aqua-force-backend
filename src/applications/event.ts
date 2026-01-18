@@ -18,14 +18,14 @@ export const createEvent = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { title, description, eventDate, location } = parsed.data;
+        const { title } = parsed.data;
 
         const exists = await checkIfExists(Event, { title });
         if (exists) {
             throw new DuplicateError("Event already exists");
         }
 
-        const event = await Event.create({ title, description, eventDate, location });
+        const event = await Event.create(parsed.data);
 
         res.status(201).json({
             statusCode: 201,
@@ -83,30 +83,30 @@ export const updateEvent = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { title, description, eventDate, location } = parsed.data;
+        const { title } = parsed.data;
 
-        const event = await Event.findById(req.params.id);
+        const exists = await checkIfExists(Event, { title });
+        if (exists) {
+            throw new DuplicateError("Event already exists");
+        }
+
+        const id = req.params.id
+
+        const event = await Event.findById(id);
         if (!event) {
             throw new NotFoundError("Event not found");
         }
 
-        if (title && title !== event.title) {
-            const exists = await checkIfExists(Event, { title });
-            if (exists) {
-                throw new DuplicateError("Event already exists");
-            }
-        }
-
         const updatedEvent = await Event.findByIdAndUpdate(
-            req.params.id,
-            { title, description, eventDate, location },
+            id,
+            parsed.data,
             { new: true, runValidators: true }
         );
 
         return res.status(200).json({
             statusCode: 200,
             message: "Event updated successfully",
-            data: updateEvent,
+            data: updatedEvent,
         });
 
     } catch (error) {
