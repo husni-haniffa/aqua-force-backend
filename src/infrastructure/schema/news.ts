@@ -12,6 +12,12 @@ const newsSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true
+        },
+        imagePath: {
+            type: String,
+        },
+        imageUrl: {
+            type: String,
         }
     },
     {

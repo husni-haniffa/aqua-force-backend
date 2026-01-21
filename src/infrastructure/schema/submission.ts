@@ -6,6 +6,10 @@ const submissionSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        name: {
+            type: String,
+            required: true,
+        },
         categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
@@ -27,7 +31,7 @@ const submissionSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        fileUrl: {
+        filePath: {
             type: String,
             required: true,
         },
