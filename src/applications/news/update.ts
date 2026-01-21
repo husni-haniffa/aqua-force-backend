@@ -21,23 +21,17 @@ export const updateNews = async (
         if (!news) {
             throw new NotFoundError("News not found");
         }
-
-      
-            const exists = await checkIfExists(News, { title: parsed.data.title });
-            if (exists) {
-                throw new DuplicateError("Title already exists");
-            }
         
-
         let imagePath = news.imagePath;
         let imageUrl = news.imageUrl;
 
         if (req.file) {
             imagePath = await uploadToGCS({
                 file: req.file,
+                ownerId: news._id.toString(),
                 folder: "news",
                 visibility: "public",
-                oldFilePath: news.imagePath ?? undefined, 
+                oldFilePath: news.imagePath ?? undefined,
             });
 
             imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;

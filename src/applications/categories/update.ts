@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { createCategoryDTO } from "../../domain/dtos/category";
-import { DuplicateError, NotFoundError, ValidationError } from "../../domain/errors";
+import { NotFoundError, ValidationError } from "../../domain/errors";
 import Category from "../../infrastructure/schema/category";
-import { checkIfExists } from "../../infrastructure/utils/checkIfExists";
 
 export const updateCategory = async (
     req: Request,
@@ -16,13 +15,6 @@ export const updateCategory = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { name } = parsed.data;
-
-        const exists = await checkIfExists(Category, { name });
-        if (exists) {
-            throw new DuplicateError("Category already exists");
-        }
-
         const id = req.params.id
 
         const category = await Category.findById(id);
@@ -30,7 +22,7 @@ export const updateCategory = async (
             throw new NotFoundError("Category not found");
         }
 
-        const updatedCategory = await Category.findByIdAndUpdate(
+        await Category.findByIdAndUpdate(
             id,
             parsed.data,
             { new: true, runValidators: true }

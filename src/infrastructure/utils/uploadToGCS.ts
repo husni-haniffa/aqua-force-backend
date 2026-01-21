@@ -4,7 +4,7 @@ import { deleteFromGCS } from "../../infrastructure/utils/deleteFromGCS";
 
 type UploadToGCSParams = {
     file: Express.Multer.File;
-    ownerId?: string;     
+    ownerId: string;     
     folder: string;          
     visibility: 'public' | 'private';
     oldFilePath?: string;    
@@ -24,7 +24,7 @@ export const uploadToGCS = async ({
         await deleteFromGCS(oldFilePath);
     }
 
-    const filePath = `${visibility}/${folder}/${safeOwnerId}/${uuid()}-${file.originalname}`;
+    const filePath = oldFilePath ?? `${visibility}/${folder}/${safeOwnerId}/${uuid()}-${file.originalname}`;
     const blob = bucket.file(filePath);
 
     const stream = blob.createWriteStream({
