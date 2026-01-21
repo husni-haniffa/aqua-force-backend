@@ -1,6 +1,10 @@
 import { z } from "zod";
 
 export const createSubmissionDTO = z.object({
+    userId: z.string().min(1, "User Id is required"),
+
+    userName: z.string().min(1, "User Name is required"),
+
     categoryId: z.string().min(1, "Category is required"),
 
     title: z
