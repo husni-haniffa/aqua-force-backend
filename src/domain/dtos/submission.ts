@@ -3,6 +3,8 @@ import { z } from 'zod';
 export const createSubmissionDTO = z.object({
     userId: z.string(),
 
+    userName: z.string(),
+
     categoryId: z.string(),
 
     title: z
@@ -19,7 +21,7 @@ export const createSubmissionDTO = z.object({
     .string()
     .trim()
     .min(5, 'Abstract must be at least 500 characters')
-    .max(10, 'Abstract must not exceed 1000 characters'),
+    .max(25, 'Abstract must not exceed 1000 characters'),
 
     keywords: z
     .array(z.string().trim().min(1, 'Keyword cannot be empty'))

@@ -1,31 +1,45 @@
-
 import { v4 as uuid } from 'uuid';
 import { bucket } from '../../config/gcs';
+import { deleteFromGCS } from "../../infrastructure/utils/deleteFromGCS";
 
-export const uploadToGCS = async (
-    file: Express.Multer.File,
-    userId: string
-): Promise<string> => {
+type UploadToGCSParams = {
+    file: Express.Multer.File;
+    ownerId?: string;     
+    folder: string;          
+    visibility: 'public' | 'private';
+    oldFilePath?: string;    
+};
 
-    const safeUserId = userId.replace(/[^a-zA-Z0-9_-]/g, '');
+export const uploadToGCS = async ({
+    file,
+    ownerId,
+    folder,
+    visibility,
+    oldFilePath,
+}: UploadToGCSParams): Promise<string> => {
 
-    const filePath = `submissions/${safeUserId}/${safeUserId}-${uuid()}-${file.originalname}`;
+    const safeOwnerId = ownerId?.replace(/[^a-zA-Z0-9_-]/g, '');
 
+    if (oldFilePath) {
+        await deleteFromGCS(oldFilePath);
+    }
+
+    const filePath = `${visibility}/${folder}/${safeOwnerId}/${uuid()}-${file.originalname}`;
     const blob = bucket.file(filePath);
 
-    const blobStream = blob.createWriteStream({
+    const stream = blob.createWriteStream({
         resumable: false,
         contentType: file.mimetype,
     });
 
-    return new Promise((resolve, reject) => {
-        blobStream.on('error', reject);
-
-        blobStream.on('finish', async () => {
-            
-            resolve(filePath);
-        });
-
-        blobStream.end(file.buffer);
+    await new Promise<void>((resolve, reject) => {
+        stream.on('error', reject);
+        stream.on('finish', resolve);
+        stream.end(file.buffer);
     });
+
+    return filePath;
 };
+
+
+
