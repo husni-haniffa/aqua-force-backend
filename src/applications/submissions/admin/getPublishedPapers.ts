@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import Submission from "../../../infrastructure/schema/submission";
 import { getSignedDownloadUrl } from "../helper";
+import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
 
 export const getPublishedPapers = async (
     req: Request,
@@ -21,10 +22,11 @@ export const getPublishedPapers = async (
                 ),
             }))
         )
+           const formatReponse = formatTimestamps(response)
 
         res.status(200).json({
             statusCode: 200,
-            data: response,
+            data: formatReponse,
         })
     } catch (error) {
         next(error)

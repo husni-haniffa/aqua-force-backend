@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"; 
 import { getSignedDownloadUrl } from "../helper";
 import Submission from "../../../infrastructure/schema/submission";
+import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
 
 export const getSubmissionByUserId = async (
     req: Request,
@@ -19,10 +20,12 @@ export const getSubmissionByUserId = async (
             }))
         );
 
-        res.status(200).json({
-            statusCode: 200,
-            data: response,
-        });
+          const formatReponse = formatTimestamps(response)
+       
+               res.status(200).json({
+                   statusCode: 200,
+                   data: formatReponse,
+               })
     } catch (error) {
         next(error);
     }

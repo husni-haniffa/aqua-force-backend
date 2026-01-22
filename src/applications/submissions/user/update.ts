@@ -18,18 +18,16 @@ export const updateSubmission = async (
             throw new NotFoundError('Submission not found');
         }
 
-        const parsed = createSubmissionDTO.safeParse(req.body);
+        const parsed = createSubmissionDTO.safeParse({
+            ...req.body,
+            keywords: JSON.parse(req.body.keywords),
+        });
+
         if (!parsed.success) {
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { title, userId } = parsed.data;
-
-        const exists = await checkIfExists(Submission, { title });
-        if (exists) {
-            throw new DuplicateError('Title already exists');
-        }
-        
+        const { userId } = parsed.data;
 
         let filePath = submission.filePath;
 
@@ -43,10 +41,13 @@ export const updateSubmission = async (
             });
         }
 
-        submission.title = title;
-        submission.filePath = filePath;
+     
 
-        await submission.save();
+        await Submission.findByIdAndUpdate(
+            id,
+            {...parsed.data, filePath},
+            { new: true, runValidators: true }
+        );
 
         res.status(200).json({
             statusCode: 200,

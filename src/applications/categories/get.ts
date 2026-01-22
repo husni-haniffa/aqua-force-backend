@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Category from "../../infrastructure/schema/category";
+import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 
 export const getAllCategories = async (
     req: Request,
@@ -7,7 +8,8 @@ export const getAllCategories = async (
     next: NextFunction
 ) => {
     try {
-        const categories = await Category.find()
+        const response = await Category.find()
+        const categories = formatTimestamps(response)
         res.status(200).json({
             statusCode: 200,
             message: "Categories retreived successfully", data: categories
