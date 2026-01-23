@@ -8,7 +8,7 @@ export const getAllEvents = async (
     next: NextFunction
 ) => {
     try {
-        const response = await Event.find()
+        const response = await Event.find().sort({ createdAt: -1 })
         const events = formatTimestamps(response)
         res.status(200).json({
             statusCode: 200,

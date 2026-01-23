@@ -8,7 +8,7 @@ export const getAllCategories = async (
     next: NextFunction
 ) => {
     try {
-        const response = await Category.find()
+        const response = await Category.find().sort({ createdAt: -1 })
         const categories = formatTimestamps(response)
         res.status(200).json({
             statusCode: 200,

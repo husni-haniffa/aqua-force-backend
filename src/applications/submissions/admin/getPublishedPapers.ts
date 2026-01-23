@@ -12,7 +12,7 @@ export const getPublishedPapers = async (
         const submissions = await Submission.find({
             isPublished: true,
             accessLevel: "PUBLIC",
-        }).sort({ createdAt: -1 })
+        }).sort({ createdAt: -1 }).populate('categoryId', 'name');
 
         const response = await Promise.all(
             submissions.map(async (submission) => ({

@@ -12,7 +12,7 @@ export const getSubmissionById = async (
     try {
         const id = req.params.id;
 
-        const submission = await Submission.findById(id)
+        const submission = await Submission.findById(id).populate('categoryId', 'name');
 
         if (!submission) {
             throw new NotFoundError("Submission not found")
