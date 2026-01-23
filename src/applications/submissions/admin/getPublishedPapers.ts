@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import Submission from "../../../infrastructure/schema/submission";
 import { getSignedDownloadUrl } from "../helper";
+import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
 
 export const getPublishedPapers = async (
     req: Request,
@@ -11,7 +12,7 @@ export const getPublishedPapers = async (
         const submissions = await Submission.find({
             isPublished: true,
             accessLevel: "PUBLIC",
-        }).sort({ createdAt: -1 })
+        }).sort({ createdAt: -1 }).populate('categoryId', 'name');
 
         const response = await Promise.all(
             submissions.map(async (submission) => ({
@@ -21,10 +22,11 @@ export const getPublishedPapers = async (
                 ),
             }))
         )
+           const formatReponse = formatTimestamps(response)
 
         res.status(200).json({
             statusCode: 200,
-            data: response,
+            data: formatReponse,
         })
     } catch (error) {
         next(error)

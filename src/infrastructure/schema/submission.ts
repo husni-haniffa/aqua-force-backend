@@ -6,7 +6,7 @@ const submissionSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        name: {
+        userName: {
             type: String,
             required: true,
         },

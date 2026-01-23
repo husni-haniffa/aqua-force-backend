@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"; 
 import { getSignedDownloadUrl } from "../helper";
 import Submission from "../../../infrastructure/schema/submission";
+import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
 
 export const getSubmissionByUserId = async (
     req: Request,
@@ -10,7 +11,7 @@ export const getSubmissionByUserId = async (
     try {
         const id = req.params.id
 
-        const submissions = await Submission.find({ userId: id});
+        const submissions = await Submission.find({ userId: id}).populate('categoryId', 'name');
 
         const response = await Promise.all(
             submissions.map(async (submission) => ({
@@ -19,10 +20,12 @@ export const getSubmissionByUserId = async (
             }))
         );
 
-        res.status(200).json({
-            statusCode: 200,
-            data: response,
-        });
+          const formatReponse = formatTimestamps(response)
+       
+               res.status(200).json({
+                   statusCode: 200,
+                   data: formatReponse,
+               })
     } catch (error) {
         next(error);
     }

@@ -16,13 +16,6 @@ export const updateEvent = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { title } = parsed.data;
-
-        const exists = await checkIfExists(Event, { title });
-        if (exists) {
-            throw new DuplicateError("Event already exists");
-        }
-
         const id = req.params.id
 
         const event = await Event.findById(id);

@@ -1,10 +1,10 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 export const createCategoryDTO = z.object({
     name: z
-    .string()
-    .min(5, 'Category name must be atleast 5 characters')
-    .max(25, 'Category name must not be more than 25 characters')
-    .regex(/^[a-zA-Z ]+$/, 'Category name must contain be only alphabets')
-})
-
+        .string()
+        .trim()
+        .min(5, "Name must be at least 5 characters")
+        .max(25, "Name must not exceed 25 characters")
+        .regex(/^[A-Za-z ]+$/, "Name must contain only alphabets"),
+});

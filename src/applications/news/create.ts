@@ -5,6 +5,7 @@ import { ValidationError, DuplicateError } from "../../domain/errors";
 import { checkIfExists } from "../../infrastructure/utils/checkIfExists";
 import News from "../../infrastructure/schema/news";
 import { bucket } from "../../config/gcs";
+import mongoose from "mongoose";
 
 export const createNews = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -20,12 +21,15 @@ export const createNews = async (req: Request, res: Response, next: NextFunction
             throw new DuplicateError("Title already exists");
         }
 
+        const newsId = new mongoose.Types.ObjectId();
+
         let imagePath: string | undefined;
         let imageUrl: string | undefined;
 
         if (req.file) {
             imagePath = await uploadToGCS({
                 file: req.file,
+                ownerId: newsId.toString(),
                 folder: "news",
                 visibility: "public",
             });

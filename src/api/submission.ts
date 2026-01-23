@@ -7,7 +7,7 @@ const submissionRouter = express.Router()
 
 submissionRouter.route('/published').get(getPublishedPapers)
 submissionRouter.route('/').get(requireAuth, requireAdmin, getAllSubmissions)
-submissionRouter.route('/delete/:id').put(requireAuth, requireAdmin, deleteSubmission)
+submissionRouter.route('/delete/:id').delete(requireAuth, requireAdmin, deleteSubmission)
 submissionRouter.route('/review/:id').put(requireAuth, requireAdmin, statusUnderReview)
 submissionRouter.route('/accept/:id').put(requireAuth, requireAdmin, statusApproved)
 submissionRouter.route('/reject/:id').put(requireAuth, requireAdmin, statusReject)

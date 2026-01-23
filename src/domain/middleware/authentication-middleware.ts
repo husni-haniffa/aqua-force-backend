@@ -9,7 +9,6 @@ export const requireAuth = (
 ) => {
     ClerkExpressRequireAuth({}) (req, res, (err?: any) => {
         if(err) {
-            console.log(err)
             return next(
                 new UnauthorizedError('Sign in required')
             )

@@ -9,6 +9,7 @@ import eventRouter from './api/event';
 import submissionRouter from './api/submission';
 import cors from 'cors';
 import userRouter from './api/user';
+import adminRouter from './api/admin';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/news', newsRouter)
 app.use('/events', eventRouter)
 app.use('/users', userRouter)
 app.use('/submissions', submissionRouter)
+app.use('/admin', adminRouter)
 
 app.use(GlobalErrorHandler)
 
