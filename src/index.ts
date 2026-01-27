@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
     credentials: true,
-    origin: ['http://localhost:3000']
+    origin: ['aqua-force-frontend.vercel.app']
 };
 
 app.use(cors(corsOptions));
