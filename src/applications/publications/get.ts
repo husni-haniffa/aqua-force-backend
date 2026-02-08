@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import Submission from "../../../infrastructure/schema/submission";
-import { getSignedDownloadUrl } from "../helper";
-import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
+import Submission from "../../infrastructure/schema/submission";
+import { getSignedDownloadUrl } from "../submissions/helper";
+import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 
-export const getPublishedPapers = async (
+export const getPublishedPapers = async(
     req: Request,
     res: Response,
     next: NextFunction
@@ -11,7 +11,6 @@ export const getPublishedPapers = async (
     try {
         const submissions = await Submission.find({
             isPublished: true,
-            accessLevel: "PUBLIC",
         }).sort({ createdAt: -1 }).populate('categoryId', 'name');
 
         const response = await Promise.all(
@@ -22,7 +21,7 @@ export const getPublishedPapers = async (
                 ),
             }))
         )
-           const formatReponse = formatTimestamps(response)
+        const formatReponse = formatTimestamps(response)
 
         res.status(200).json({
             statusCode: 200,
