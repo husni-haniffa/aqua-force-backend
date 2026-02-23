@@ -1,19 +1,23 @@
 import { Storage } from "@google-cloud/storage";
-import fs from "fs";
 
-const credentialsPath = "/tmp/service-account.json";
+function getGCredentials() {
+    if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+        return {
+            credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY),
+            projectId: process.env.GCLOUD_PROJECT_ID,
+        };
+    }
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        return {
+            keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+            projectId: process.env.GCLOUD_PROJECT_ID,
+        };
+    }
 
-if (!fs.existsSync(credentialsPath)) {
-    fs.writeFileSync(
-        credentialsPath,
-        process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON as string
-    );
+    throw new Error("❌ No Google Cloud credentials found");
 }
 
-const storage = new Storage({
-    projectId: process.env.GCLOUD_PROJECT_ID,
-    keyFilename: credentialsPath,
-});
+export const storage = new Storage(getGCredentials());
 
 export const bucket = storage.bucket(
     process.env.GCLOUD_BUCKET_NAME as string

@@ -7,6 +7,8 @@ export const createSubmissionDTO = z.object({
 
     categoryId: z.string().min(1, "Category is required"),
 
+    researchTypeId: z.string().min(1, "Research Type is required"),
+
     title: z
         .string()
         .trim()

@@ -12,7 +12,10 @@ export const getPublishedPaperById = async (
     try {
         const { id } = req.params
 
-        const publishedPaper = await Submission.findById(id).populate('categoryId', 'name');
+        const publishedPaper = await Submission.findById(id).populate([
+            { path: 'categoryId', select: 'name' },
+            { path: 'researchTypeId', select: 'name' }
+        ]);
         if (!publishedPaper) {
             throw new NotFoundError()
         }
