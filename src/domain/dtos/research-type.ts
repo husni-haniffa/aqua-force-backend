@@ -4,7 +4,7 @@ export const createResearchTypeDTO = z.object({
     name: z
         .string()
         .trim()
-        .min(5, "Name must be at least 5 characters")
-        .max(25, "Name must not exceed 25 characters")
+        .min(3, "Name must be at least 3 characters")
+        .max(21, "Name must not exceed 21 characters")
         .regex(/^[A-Za-z ]+$/, "Name must contain only alphabets"),
 });
