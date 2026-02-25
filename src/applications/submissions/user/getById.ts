@@ -12,7 +12,10 @@ export const getSubmissionById = async (
     try {
         const id = req.params.id;
 
-        const submission = await Submission.findById(id).populate('categoryId', 'name');
+        const submission = await Submission.findById(id).populate([
+            { path: 'categoryId', select: 'name' },
+            { path: 'researchTypeId', select: 'name' }
+        ]);
 
         if (!submission) {
             throw new NotFoundError("Submission not found")

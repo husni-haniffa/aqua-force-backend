@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createCategoryDTO = z.object({
+export const createResearchTypeDTO = z.object({
     name: z
         .string()
         .trim()
