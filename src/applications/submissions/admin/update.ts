@@ -105,5 +105,85 @@ export const publishSubmission = async (
     }
 }
 
+export const addSocialMediaLinks = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const id = req.params.id
+        const { socialMediaLinks } = req.body;
+
+        if (!socialMediaLinks || typeof socialMediaLinks !== "object") {
+            return res.status(400).json({ message: "Invalid social links data" });
+        }
+
+        const submission = await Submission.findById(id);
+
+        if (!submission) {
+            return res.status(404).json({ message: "Submission not found" });
+        }
+
+    
+
+        await Submission.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    socialMediaLinks: { ...socialMediaLinks }
+                }
+            },
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json({
+            message: "Social media links added successfully",
+            data: submission.socialMediaLinks
+        });
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const updateSocialMediaLinks = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const id = req.params.id
+        const { socialMediaLinks } = req.body;
+
+        if (!socialMediaLinks || typeof socialMediaLinks !== "object") {
+            return res.status(400).json({ message: "Invalid social links data" });
+        }
+
+        const submission = await Submission.findById(id);
+
+        if (!submission) {
+            return res.status(404).json({ message: "Submission not found" });
+        }
+
+        await Submission.findByIdAndUpdate(
+            id,
+            {
+                $set: Object.fromEntries(
+                    Object.entries(socialMediaLinks).map(([k, v]) => [
+                        `socialMediaLinks.${k}`, v
+                    ])
+                )
+            },
+            { new: true, runValidators: true }
+        );
+        res.status(200).json({
+            message: "Social media links updated successfully",
+            data: submission.socialMediaLinks
+        });
+
+    } catch (error) {
+        next(error)
+    }
+};
 
 

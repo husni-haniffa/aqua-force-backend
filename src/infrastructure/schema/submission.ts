@@ -15,6 +15,11 @@ const submissionSchema = new mongoose.Schema(
             required: true,
             ref: "Category"
         },
+        researchTypeId: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: "ResearchType"
+        },
         title: {
             type: String,
             required: true,
@@ -48,7 +53,13 @@ const submissionSchema = new mongoose.Schema(
             type: String,
             enum: ['PUBLIC', 'MEMBERS'],
             default: 'PUBLIC'
-        }
+        },
+        socialMediaLinks: {
+            youtube: { type: String, default: null, trim: true },
+            facebook: { type: String, default: null, trim: true },
+            instagram: { type: String, default: null, trim: true },
+            linkedin: { type: String, default: null, trim: true },
+        },
     },
     {
         timestamps: true

@@ -12,6 +12,7 @@ import userRouter from './api/user';
 import adminRouter from './api/admin';
 import publicationRouter from './api/publication';
 import waitlistRouter from './api/waitlist';
+import researchTypeRouter from './api/researchType';
 
 const app = express();
 
@@ -25,7 +26,7 @@ const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
     credentials: true,
-    origin: ['https://aqua-force-frontend.vercel.app']
+    origin: ['https://aqua-force-frontend.vercel.app', 'http://localhost:3000']
 };
 
 app.use(cors(corsOptions));
@@ -37,6 +38,7 @@ app.use('/users', userRouter)
 app.use('/submissions', submissionRouter)
 app.use('/publications', publicationRouter)
 app.use('/waitlist', waitlistRouter)
+app.use('/research-types', researchTypeRouter)
 app.use('/admin', adminRouter)
 
 app.use(GlobalErrorHandler)
