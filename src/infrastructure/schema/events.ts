@@ -26,6 +26,14 @@ const eventSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true
+        },
+        imagePath: {
+            required: true,
+            type: String,
+        },
+        imageUrl: {
+            required: true,
+            type: String,
         }
     },
     {

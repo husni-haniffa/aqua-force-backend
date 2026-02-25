@@ -11,7 +11,10 @@ export const getPublishedPapers = async(
     try {
         const submissions = await Submission.find({
             isPublished: true,
-        }).sort({ createdAt: -1 }).populate('categoryId', 'name');
+        }).sort({ createdAt: -1 }).populate([
+            { path: 'categoryId', select: 'name' },
+            { path: 'researchTypeId', select: 'name' }
+        ]);
 
         const response = await Promise.all(
             submissions.map(async (submission) => ({

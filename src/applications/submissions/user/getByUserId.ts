@@ -11,7 +11,10 @@ export const getSubmissionByUserId = async (
     try {
         const id = req.params.id
 
-        const submissions = await Submission.find({ userId: id}).populate('categoryId', 'name');
+        const submissions = await Submission.find({ userId: id }).populate([
+            { path: 'categoryId', select: 'name' },
+            { path: 'researchTypeId', select: 'name' }
+        ]).sort({ createdAt: -1 })
 
         const response = await Promise.all(
             submissions.map(async (submission) => ({
