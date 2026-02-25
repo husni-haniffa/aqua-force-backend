@@ -37,13 +37,11 @@ export const updateNews = async (
             imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
         }
 
-        news.title = parsed.data.title;
-        news.content = parsed.data.content;
-        news.imagePath = imagePath;
-        news.imageUrl = imageUrl;
-
-        await news.save();
-
+        await News.findByIdAndUpdate(
+            req.params.id,
+            { ...parsed.data, imagePath, imageUrl },
+            { new: true, runValidators: true }
+        )
         res.status(200).json({
             statusCode: 200,
             message: "News updated successfully",
