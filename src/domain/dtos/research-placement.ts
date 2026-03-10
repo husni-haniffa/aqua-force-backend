@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const phoneRegex = /^07\d{8}$/;
 
-export const createResearchIdeaDTO = z.object({
+export const createResearchPlacementDTO = z.object({
     title: z
         .string()
         .trim()
@@ -70,12 +70,6 @@ export const createResearchIdeaDTO = z.object({
         .trim()
         .min(10, "Minor research idea must be at least 10 characters")
         .max(2500, "Too long"),
-
-    researchIdea: z
-        .string()
-        .trim()
-        .min(20, "Research idea must be at least 20 characters")
-        .max(5000, "Too long"),
 
     howCanYouContribute: z
         .string()
