@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import { ValidationError } from "../../domain/errors";
+import { NotFoundError, ValidationError } from "../../domain/errors";
 import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import { createResearchHelpDTO } from "../../domain/dtos/research-help";
 import ResearchHelp from "../../infrastructure/schema/research-help";
@@ -36,6 +36,25 @@ export const getAllResearchHelp = async (
         res.status(200).json({
             statusCode: 200,
             message: "Research Helps retreived successfully", data: researchHelp
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteResearchHelp = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const help = await ResearchHelp.findByIdAndDelete(req.params.id)
+        if (!help) {
+            throw new NotFoundError('Application not found')
+        }
+        res.status(200).json({
+            statusCode: 200,
+            message: "Application deleted successfully"
         })
     } catch (error) {
         next(error)

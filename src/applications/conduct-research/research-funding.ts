@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createResearchFundingDTO } from "../../domain/dtos/research-funding";
-import { ValidationError } from "../../domain/errors";
+import { NotFoundError, ValidationError } from "../../domain/errors";
 import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import ResearchFunding from "../../infrastructure/schema/research-funding";
 
@@ -35,6 +35,25 @@ export const getAllResearchFunding = async (
         res.status(200).json({
             statusCode: 200,
             message: "Research Ideas retreived successfully", data: researchFundings
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteResearchFunding = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const funding = await ResearchFunding.findByIdAndDelete(req.params.id)
+        if (!funding) {
+            throw new NotFoundError('Application not found')
+        }
+        res.status(200).json({ 
+            statusCode: 200, 
+            message: "Application deleted successfully"
         })
     } catch (error) {
         next(error)
