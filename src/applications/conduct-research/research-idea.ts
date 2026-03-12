@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createResearchIdeaDTO } from "../../domain/dtos/reseach-idea";
-import { ValidationError } from "../../domain/errors";
+import { NotFoundError, ValidationError } from "../../domain/errors";
 import ResearchIdea from "../../infrastructure/schema/research-idea";
 import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 
@@ -35,6 +35,25 @@ export const getAllResearchIdea = async (
         res.status(200).json({
             statusCode: 200,
             message: "Research Ideas retreived successfully", data: researchIdeas
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteResearchIdea = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const idea = await ResearchIdea.findByIdAndDelete(req.params.id)
+        if (!idea) {
+            throw new NotFoundError('Application not found')
+        }
+        res.status(200).json({
+            statusCode: 200,
+            message: "Application deleted successfully"
         })
     } catch (error) {
         next(error)
