@@ -13,6 +13,7 @@ import adminRouter from './api/admin';
 import publicationRouter from './api/publication';
 import waitlistRouter from './api/waitlist';
 import researchTypeRouter from './api/researchType';
+import conductResearchRouter from './api/conduct-research';
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/submissions', submissionRouter)
 app.use('/publications', publicationRouter)
 app.use('/waitlist', waitlistRouter)
 app.use('/research-types', researchTypeRouter)
+app.use('/conduct-research', conductResearchRouter)
 app.use('/admin', adminRouter)
 
 app.use(GlobalErrorHandler)
