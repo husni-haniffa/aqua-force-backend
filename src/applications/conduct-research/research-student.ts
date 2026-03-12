@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createResearchPlacementDTO } from "../../domain/dtos/research-placement";
-import { ValidationError } from "../../domain/errors";
+import { NotFoundError, ValidationError } from "../../domain/errors";
 import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import ResearchStudent from "../../infrastructure/schema/research-students";
 import { createResearchStudentDTO } from "../../domain/dtos/research-student";
@@ -36,6 +36,25 @@ export const getAllResearchStudent = async (
         res.status(200).json({
             statusCode: 200,
             message: "Research Students retreived successfully", data: researchStudents
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteResearchStudent = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const student = await ResearchStudent.findByIdAndDelete(req.params.id)
+        if (!student) {
+            throw new NotFoundError('Application not found')
+        }
+        res.status(200).json({
+            statusCode: 200,
+            message: "Application deleted successfully"
         })
     } catch (error) {
         next(error)

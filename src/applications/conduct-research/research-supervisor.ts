@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ValidationError } from "../../domain/errors";
+import { NotFoundError, ValidationError } from "../../domain/errors";
 import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import ResearchPlacement from "../../infrastructure/schema/research-placement";
 import ResearchSupervisor from "../../infrastructure/schema/research-supervisor";
@@ -36,6 +36,25 @@ export const getAllResearchSupervisor = async (
         res.status(200).json({
             statusCode: 200,
             message: "Research Supervisors retreived successfully", data: researchSupervisors
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteResearchSupervisor = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const supervisor = await ResearchSupervisor.findByIdAndDelete(req.params.id)
+        if (!supervisor) {
+            throw new NotFoundError('Application not found')
+        }
+        res.status(200).json({
+            statusCode: 200,
+            message: "Application deleted successfully"
         })
     } catch (error) {
         next(error)
