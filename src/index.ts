@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
     credentials: true,
-    origin: ['https://aqua-force-frontend.vercel.app', 'http://localhost:3000']
+    origin: ['https://aqua-force-frontend.vercel.app', 'http://localhost:3000', 'https://researchmindsnet.netlify.app']
 };
 
 app.use(cors(corsOptions));
