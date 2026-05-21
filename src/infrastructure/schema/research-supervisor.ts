@@ -98,6 +98,11 @@ const researchSupervisorSchema = new mongoose.Schema(
             maxlength: 50
         },
 
+        motivation: {
+            type: String,
+            required: true,
+        },
+
         howCanYouContribute: {
             type: String,
             required: true,
