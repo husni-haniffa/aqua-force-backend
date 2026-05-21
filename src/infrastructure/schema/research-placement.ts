@@ -93,7 +93,6 @@ const researchPlacementSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            maxlength: 1000
         }
     },
     {
