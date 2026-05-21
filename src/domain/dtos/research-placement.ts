@@ -54,6 +54,12 @@ export const createResearchPlacementDTO = z.object({
         .trim()
         .min(2, "Designation required")
         .max(250, "Designation too long"),
+    
+    affiliationType: z
+        .string()
+        .trim()
+        .min(1, "Affiliation Type is required")
+        .max(100, "Affiliation Type long"),
 
     affiliation: z
         .string()

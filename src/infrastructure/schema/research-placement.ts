@@ -65,6 +65,13 @@ const researchPlacementSchema = new mongoose.Schema(
             maxlength: 150
         },
 
+        affiliationType: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 200
+        },
+
         affiliation: {
             type: String,
             required: true,
