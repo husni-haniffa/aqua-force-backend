@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const phoneRegex = /^07\d{8}$/;
+const phoneRegex = /^\d{10}$/;
 
 export const createResearchFundingDTO = z.object({
     title: z
@@ -13,7 +13,7 @@ export const createResearchFundingDTO = z.object({
         .string()
         .trim()
         .min(1, "Full name is required")
-        .max(200, "Name is too long"),
+        .max(255, "Name is too long"),
 
     mobile: z
         .string()
@@ -65,16 +65,17 @@ export const createResearchFundingDTO = z.object({
         .trim()
         .min(1, "Affiliation is required")
         .max(200, "Affiliation is too long"),
+
     degree: z
         .string()
         .trim()
-        .min(1, "Degree is required"),
+        .min(1, "Please select a degree"),
 
     categoryId: z
         .string()
-        .min(1, "Category is required"),
+        .min(1, "Please select a category"),
 
-    minorResearchAreaForFunding: z
+    minorResearchArea: z
         .string()
         .trim()
         .min(1, "Please enter a short summary")
@@ -90,5 +91,5 @@ export const createResearchFundingDTO = z.object({
         .string()
         .trim()
         .min(1, "Please explain your contribution")
-        .max(1000, "Contribution is too long"),
+        .max(2500, "Contribution is too long"),
 });

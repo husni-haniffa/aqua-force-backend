@@ -2,66 +2,67 @@ import mongoose from "mongoose";
 
 const researchFundingSchema = new mongoose.Schema(
     {
-     
-            title: {
-                type: String,
-                required: true,
-                trim: true,
-                maxlength: 20
-            },
 
-            name: {
-                type: String,
-                required: true,
-                trim: true,
-                maxlength: 255
-            },
+        title: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 20
+        },
 
-            mobile: {
-                type: String,
-                required: true,
-                match: /^\d{10}$/
-            },
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 255
+        },
 
-            whatsapp: {
-                type: String,
-                required: true,
-                match: /^\d{10}$/
-            },
+        mobile: {
+            type: String,
+            required: true,
+            match: /^\d{10}$/
+        },
 
-            email: {
-                type: String,
-                required: true,
-                trim: true,
-                maxlength: 255
-            },
+        whatsapp: {
+            type: String,
+            required: true,
+            match: /^\d{10}$/
+        },
 
-            linkedin: {
-                type: String,
-                trim: true
-            },
+        email: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 255
+        },
 
-            orcid: {
-                type: String,
-                trim: true
-            },
+        linkedin: {
+            type: String,
+            trim: true
+        },
 
-            researchgate: {
-                type: String,
-                trim: true
-            },
+        orcid: {
+            type: String,
+            trim: true
+        },
 
-            scholar: {
-                type: String,
-                trim: true
-            },
+        researchgate: {
+            type: String,
+            trim: true
+        },
 
-            designation: {
-                type: String,
-                required: true,
-                trim: true,
-                maxlength: 150
-            },
+        scholar: {
+            type: String,
+            trim: true
+        },
+
+        designation: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 150
+        },
+        
         affiliation: {
             type: String,
             required: true,
@@ -81,7 +82,7 @@ const researchFundingSchema = new mongoose.Schema(
             ref: "Category"
         },
 
-        minorResearchAreaForFunding: {
+        minorResearchArea: {
             type: String,
             required: true,
             trim: true,

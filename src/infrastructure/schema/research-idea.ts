@@ -75,11 +75,10 @@ const researchIdeaSchema = new mongoose.Schema(
             ref: "Category"
         },
 
-        minorResearchIdea: {
+        minorResearchArea: {
             type: String,
             required: true,
             trim: true,
-            maxlength: 1000
         },
 
         researchIdea: {
