@@ -73,7 +73,7 @@ export const createResearchSupervisorDTO = z.object({
         .string()
         .min(1, "Please select a category"),
 
-    minorResearchIdea: z
+    minorResearchArea: z
         .string()
         .trim()
         .min(1, "Please enter a short summary")
