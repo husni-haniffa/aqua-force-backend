@@ -4,12 +4,12 @@ export const createNewsDTO = z.object({
     title: z
         .string()
         .trim()
-        .min(50, "Title must be at least 50 characters")
-        .max(500, "Title must not exceed 500 characters"),
+        .min(1, "News title is required")
+        .max(2500, "News title is too long"),
 
     content: z
         .string()
         .trim()
-        .min(75, "Content must be at least 75 characters")
-        .max(10000, "Content must not exceed 10,000 characters"),
+        .min(1, "News content is required")
+        .max(10000, "News content is too long"),
 });

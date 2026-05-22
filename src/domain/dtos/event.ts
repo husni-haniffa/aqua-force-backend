@@ -4,8 +4,8 @@ export const createEventDTO = z.object({
     title: z
         .string()
         .trim()
-        .min(5, "Title must be at least 5 characters")
-        .max(25, "Title must not exceed 25 characters")
+        .min(1, "Event title is required")
+        .max(500, "Event title is too long")
         .regex(
             /^[A-Za-z0-9\s:,\-()./]+$/,
             "Title contains invalid characters"
@@ -14,8 +14,8 @@ export const createEventDTO = z.object({
     description: z
         .string()
         .trim()
-        .min(15, "Description must be at least 15 characters")
-        .max(125, "Description must not exceed 125 characters"),
+        .min(1, "Event description is required")
+        .max(1000, "Event description is too long"),
 
     eventDate: z
         .string()
@@ -34,8 +34,8 @@ export const createEventDTO = z.object({
     location: z
         .string()
         .trim()
-        .min(3, "Location must be at least 3 characters")
-        .max(75, "Location must not exceed 75 characters")
+        .min(1, "Event location is required")
+        .max(500, "Event location is too long")
         .regex(
             /^[A-Za-z0-9 ,.-]+$/,
             "Location contains invalid characters"
