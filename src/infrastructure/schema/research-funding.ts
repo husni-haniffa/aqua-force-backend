@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const researchFundingSchema = new mongoose.Schema(
     {
+
         title: {
             type: String,
             required: true,
@@ -13,19 +14,19 @@ const researchFundingSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            maxlength: 200
+            maxlength: 255
         },
 
         mobile: {
             type: String,
             required: true,
-            match: /^07\d{8}$/
+            match: /^\d{10}$/
         },
 
         whatsapp: {
             type: String,
             required: true,
-            match: /^07\d{8}$/
+            match: /^\d{10}$/
         },
 
         email: {
@@ -36,13 +37,11 @@ const researchFundingSchema = new mongoose.Schema(
         },
 
         linkedin: {
-            required: true,
             type: String,
             trim: true
         },
 
         orcid: {
-            required: true,
             type: String,
             trim: true
         },
@@ -53,7 +52,6 @@ const researchFundingSchema = new mongoose.Schema(
         },
 
         scholar: {
-            required: true,
             type: String,
             trim: true
         },
@@ -64,7 +62,7 @@ const researchFundingSchema = new mongoose.Schema(
             trim: true,
             maxlength: 150
         },
-
+        
         affiliation: {
             type: String,
             required: true,
@@ -84,11 +82,10 @@ const researchFundingSchema = new mongoose.Schema(
             ref: "Category"
         },
 
-        minorResearchAreaForFunding: {
+        minorResearchArea: {
             type: String,
             required: true,
             trim: true,
-            maxlength: 1000
         },
 
         fundingAmount: {
@@ -101,7 +98,6 @@ const researchFundingSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            maxlength: 1000
         }
     },
     {
