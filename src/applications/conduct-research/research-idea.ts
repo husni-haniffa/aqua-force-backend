@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { createResearchIdeaDTO } from "../../domain/dtos/reseach-idea";
-import { NotFoundError, ValidationError } from "../../domain/errors";
+import { DuplicateError, NotFoundError, ValidationError } from "../../domain/errors";
 import ResearchIdea from "../../infrastructure/schema/research-idea";
 import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
+import { checkIfExists } from "../../infrastructure/utils/checkIfExists";
 
 export const createResearchIdea = async (
     req: Request,
@@ -13,6 +14,11 @@ export const createResearchIdea = async (
         const parsed = createResearchIdeaDTO.safeParse(req.body)
         if (!parsed.success) {
             throw new ValidationError(parsed.error.issues[0].message);
+        }
+        const { researchIdea } = parsed.data
+        const exists = await checkIfExists(ResearchIdea, { researchIdea });
+        if (exists) {
+            throw new DuplicateError("Reasearch Idea already exists");
         }
         await ResearchIdea.create(parsed.data)
         return res.json({

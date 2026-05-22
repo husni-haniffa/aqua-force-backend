@@ -13,19 +13,19 @@ const researchHelpSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            maxlength: 200
+            maxlength: 255
         },
 
         mobile: {
             type: String,
             required: true,
-            match: /^07\d{8}$/
+            match: /^\d{10}$/
         },
 
         whatsapp: {
             type: String,
             required: true,
-            match: /^07\d{8}$/
+            match: /^\d{10}$/
         },
 
         email: {
@@ -36,13 +36,11 @@ const researchHelpSchema = new mongoose.Schema(
         },
 
         linkedin: {
-            required: true,
             type: String,
             trim: true
         },
 
         orcid: {
-            required: true,
             type: String,
             trim: true
         },
@@ -53,7 +51,7 @@ const researchHelpSchema = new mongoose.Schema(
         },
 
         scholar: {
-            required: true,
+
             type: String,
             trim: true
         },
@@ -88,16 +86,12 @@ const researchHelpSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            maxlength: 1000
         },
-
-   
 
         howCanYouContribute: {
             type: String,
             required: true,
             trim: true,
-            maxlength: 1000
         }
     },
     {

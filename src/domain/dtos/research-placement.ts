@@ -1,79 +1,90 @@
 import { z } from "zod";
 
-const phoneRegex = /^07\d{8}$/;
+const phoneRegex = /^\d{10}$/;
 
 export const createResearchPlacementDTO = z.object({
     title: z
         .string()
         .trim()
-        .min(1, "Title is required")
-        .max(20, "Title too long"),
+        .min(1, "Please select a title")
+        .max(20, "Title is too long"),
 
     name: z
         .string()
         .trim()
-        .min(1, "Name is required")
-        .max(200, "Name cannot exceed more than 200 characters"),
+        .min(1, "Full name is required")
+        .max(255, "Name is too long"),
 
     mobile: z
         .string()
-        .regex(phoneRegex, "Mobile must be 10 digits starting with 07"),
+        .regex(phoneRegex, "Enter a valid mobile number"),
 
     whatsapp: z
         .string()
-        .regex(phoneRegex, "WhatsApp must be 10 digits starting with 07"),
+        .regex(phoneRegex, "Enter a valid WhatsApp number"),
+
 
     email: z
         .string()
         .trim()
-        .email("Invalid email address")
-        .max(255, "Email too long"),
+        .email("Enter a valid email address")
+        .max(255, "Email is too long"),
 
     linkedin: z
         .string()
         .trim()
-        .url("Invalid LinkedIn URL"),
+        .url("Enter a valid LinkedIn URL")
+        .or(z.literal("")),
 
     orcid: z
         .string()
         .trim()
-        .url("Invalid ORCID URL"),
+        .url("Enter a valid ORCID URL")
+        .or(z.literal("")),
 
     researchgate: z
         .string()
         .trim()
-        .url("Invalid ResearchGate URL"),
+        .url("Enter a valid ResearchGate URL")
+        .or(z.literal("")),
 
     scholar: z
         .string()
         .trim()
-        .url("Invalid Google Scholar URL"),
+        .url("Enter a valid Google Scholar URL")
+        .or(z.literal("")),
 
     designation: z
         .string()
         .trim()
-        .min(2, "Designation required")
-        .max(250, "Designation too long"),
+        .min(1, "Designation is required")
+        .max(250, "Designation is too long"),
+
+    affiliationType: z
+        .string()
+        .trim()
+        .min(1, "Affiliation type is required")
+        .max(200, "Affiliation type is too long"),
 
     affiliation: z
         .string()
         .trim()
-        .min(2, "Affiliation required")
-        .max(200, "Affiliation too long"),
+        .min(1, "Affiliation is required")
+        .max(200, "Affiliation is too long"),
 
     categoryId: z
         .string()
-        .min(1, "Category is required"),
+        .min(1, "Please select a category"),
 
-    minorResearchIdea: z
+    minorResearchArea: z
         .string()
         .trim()
-        .min(10, "Minor research idea must be at least 10 characters")
-        .max(2500, "Too long"),
+        .min(1, "Please enter a short summary")
+        .max(2500, "Summary is too long"),
 
     howCanYouContribute: z
         .string()
         .trim()
-        .min(10, "Please explain your contribution")
-        .max(1000, "Too long"),
+        .min(1, "Please explain your contribution")
+        .max(2500, "Contribution is too long"),
 });
