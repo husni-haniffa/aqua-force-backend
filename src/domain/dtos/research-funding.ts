@@ -84,8 +84,8 @@ export const createResearchFundingDTO = z.object({
     fundingAmount: z
         .string()
         .trim()
-        .min(3, "Funding amount must be at least 3 characters")
-        .max(20, "Amount is too long"),
+        .min(3, "Funding amount more than Rs 90")
+        .max(9, "Funding amount cannot exceed Rs 999,999,999"),
 
     howCanYouContribute: z
         .string()

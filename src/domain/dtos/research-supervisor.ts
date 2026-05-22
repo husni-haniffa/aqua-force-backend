@@ -83,7 +83,7 @@ export const createResearchSupervisorDTO = z.object({
         .string()
         .trim()
         .min(1, "No of Students must be at least 1")
-        .max(50, "Cannot exceed more than 50"),
+        .max(2, "No of Students cannot exceed 99"),
 
     motivation: z
         .string()
