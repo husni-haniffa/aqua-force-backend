@@ -51,7 +51,7 @@ const submissionSchema = new mongoose.Schema(
         },
         accessLevel: {
             type: String,
-            enum: ['PUBLIC', 'MEMBERS'],
+            enum: ['PUBLIC'],
             default: 'PUBLIC'
         },
         socialMediaLinks: {

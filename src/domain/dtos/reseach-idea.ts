@@ -7,13 +7,13 @@ export const createResearchIdeaDTO = z.object({
         .string()
         .trim()
         .min(1, "Please select a title")
-        .max(20, "Title is too long"),
+        .max(10, "Title is too long"),
 
     name: z
         .string()
         .trim()
         .min(1, "Full name is required")
-        .max(255, "Name is too long"),
+        .max(100, "Name is too long"),
 
     mobile: z
         .string()
@@ -57,13 +57,13 @@ export const createResearchIdeaDTO = z.object({
         .string()
         .trim()
         .min(1, "Designation is required")
-        .max(250, "Designation is too long"),
+        .max(100, "Designation is too long"),
 
     affiliation: z
         .string()
         .trim()
         .min(1, "Affiliation is required")
-        .max(200, "Affiliation is too long"),
+        .max(250, "Affiliation is too long"),
 
     categoryId: z
         .string()
@@ -73,17 +73,17 @@ export const createResearchIdeaDTO = z.object({
         .string()
         .trim()
         .min(1, "Please enter a short summary")
-        .max(2500, "Summary is too long"),
+        .max(1000, "Summary is too long"),
 
     researchIdea: z
         .string()
         .trim()
         .min(1, "Please describe your research idea")
-        .max(5000, "Research idea is too long"),
+        .max(2500, "Research idea is too long"),
 
     howCanYouContribute: z
         .string()
         .trim()
         .min(1, "Please explain your contribution")
-        .max(2500, "Contribution is too long"),
+        .max(1000, "Contribution is too long"),
 });
