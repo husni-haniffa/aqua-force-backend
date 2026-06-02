@@ -13,7 +13,7 @@ export const createSubmissionDTO = z.object({
         .string()
         .trim()
         .min(50, "Title must be at least 50 characters")
-        .max(200, "Title must not exceed 200 characters")
+        .max(250, "Title must not exceed 250 characters")
         .regex(
             /^[A-Za-z0-9\s:,\-()./]+$/,
             "Title contains invalid characters"
