@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { getSignedDownloadUrl } from "../helper";
 import Submission from "../../../infrastructure/schema/submission";
 import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
+import { getAuth } from "@clerk/express";
+import { UnauthorizedError } from "../../../domain/errors";
 
 export const getSubmissionByUserId = async (
     req: Request,
@@ -11,7 +13,13 @@ export const getSubmissionByUserId = async (
     try {
         const id = req.params.id
 
-        const submissions = await Submission.find({ userId: id }).populate([
+        const { userId } = getAuth(req)
+        
+        if(!userId) {
+            throw new UnauthorizedError()
+        }
+
+        const submissions = await Submission.find({ userId: userId }).populate([
             { path: 'categoryId', select: 'name' },
             { path: 'researchTypeId', select: 'name' }
         ]).sort({ createdAt: -1 })
