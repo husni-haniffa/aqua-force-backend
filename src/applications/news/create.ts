@@ -11,7 +11,7 @@ export const createNews = async (req: Request, res: Response, next: NextFunction
     try {
         const parsed = createNewsDTO.safeParse(req.body);
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const { title } = parsed.data;

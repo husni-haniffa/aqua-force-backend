@@ -14,14 +14,14 @@ export const updateNews = async (
     try {
         const parsed = createNewsDTO.safeParse(req.body);
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const news = await News.findById(req.params.id);
         if (!news) {
             throw new NotFoundError("News not found");
         }
-        
+
         let imagePath = news.imagePath;
         let imageUrl = news.imageUrl;
 

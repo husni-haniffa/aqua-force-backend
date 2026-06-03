@@ -12,7 +12,7 @@ export const createResearchFunding = async (
     try {
         const parsed = createResearchFundingDTO.safeParse(req.body)
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
         await ResearchFunding.create(parsed.data)
         return res.json({
@@ -51,8 +51,8 @@ export const deleteResearchFunding = async (
         if (!funding) {
             throw new NotFoundError('Application not found')
         }
-        res.status(200).json({ 
-            statusCode: 200, 
+        res.status(200).json({
+            statusCode: 200,
             message: "Application deleted successfully"
         })
     } catch (error) {
