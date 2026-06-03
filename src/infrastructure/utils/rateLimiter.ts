@@ -9,3 +9,12 @@ export const researchApplicationFormLimiter = rateLimit({
         next(new AppError("Too many requests. please try again in 15 minutes", 429));
     },
 });
+
+export const researchSubmissionRateLimiter = rateLimit({
+    windowMs: 30 * 60 * 1000,
+    max: 15,
+
+    handler: (req, res, next) => {
+        next(new AppError("Too many requests. please try again in 30 minutes", 429));
+    },
+})
