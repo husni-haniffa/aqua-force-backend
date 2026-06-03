@@ -1,4 +1,5 @@
-import clerkClient from "@clerk/clerk-sdk-node";
+
+import { clerkClient } from "@clerk/express";
 import { Request, Response, NextFunction } from "express";
 
 export const updateRoleToAdmin = async (

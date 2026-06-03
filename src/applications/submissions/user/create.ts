@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { DuplicateError, ValidationError } from "../../../domain/errors";
+import { DuplicateError, UnauthorizedError, ValidationError } from "../../../domain/errors";
 import { createSubmissionDTO } from "../../../domain/dtos/submission";
 import { checkIfExists } from "../../../infrastructure/utils/checkIfExists";
 import Submission from "../../../infrastructure/schema/submission";
 import { uploadToGCS } from "../../../infrastructure/utils/uploadToGCS";
+import { getAuth } from "@clerk/express";
 
 export const createSubmission = async (
     req: Request,
@@ -23,8 +24,13 @@ export const createSubmission = async (
         if (!parsed.success) {
             throw new ValidationError(parsed.error.issues[0].message);
         }
+        const { userId } = getAuth(req)
 
-        const { userId, title } = parsed.data;
+        if(!userId) {
+            throw new UnauthorizedError()
+        }
+        
+        const { title } = parsed.data;
 
         const exists = await checkIfExists(Submission, { title });
         if (exists) {

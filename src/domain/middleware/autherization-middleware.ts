@@ -1,24 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import ForbiddenError from "../errors/forbidden-error";
+import { getAuth } from "@clerk/express";
+import { UnauthorizedError, ForbiddenError } from "../errors";
 
-export const requireAdmin = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    // @ts-ignore
-    if (!req.auth) {
-        throw new ForbiddenError("Authentication required");
+export const requireAdmin = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId, sessionClaims } = getAuth(req);
+
+        if (!userId) {
+            return next(new UnauthorizedError());
+        }
+
+        const role = (sessionClaims?.metadata as any)?.role;
+
+        if (role !== "admin") {
+            return next(new ForbiddenError("Admin access required"));
+        }
+
+        next();
+    } catch (error) {
+        next(error);
     }
-    
-    // @ts-ignore
-    const { sessionClaims } = req.auth;
-
-    const role = sessionClaims?.metadata?.role 
-
-    if (role !== "admin") {
-        throw new ForbiddenError("Admin access required");
-    }
-
-    next();
 };

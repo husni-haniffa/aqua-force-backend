@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { DuplicateError, NotFoundError, ValidationError } from "../../../domain/errors";
+import { DuplicateError, NotFoundError, UnauthorizedError, ValidationError } from "../../../domain/errors";
 import Submission from "../../../infrastructure/schema/submission";
 import { uploadToGCS } from "../../../infrastructure/utils/uploadToGCS";
 import { createSubmissionDTO } from "../../../domain/dtos/submission";
 import { checkIfExists } from "../../../infrastructure/utils/checkIfExists";
+import { getAuth } from "@clerk/express";
 
 export const updateSubmission = async (
     req: Request,
@@ -27,7 +28,11 @@ export const updateSubmission = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
 
-        const { userId } = parsed.data;
+        const { userId } = getAuth(req)
+
+        if (!userId) {
+            throw new UnauthorizedError()
+        }
 
         let filePath = submission.filePath;
 
