@@ -18,18 +18,18 @@ export const createSubmission = async (
 
         const parsed = createSubmissionDTO.safeParse({
             ...req.body,
-            keywords: JSON.parse(req.body.keywords), 
+            keywords: JSON.parse(req.body.keywords),
         });
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
         const { userId } = getAuth(req)
 
-        if(!userId) {
+        if (!userId) {
             throw new UnauthorizedError()
         }
-        
+
         const { title } = parsed.data;
 
         const exists = await checkIfExists(Submission, { title });
@@ -46,7 +46,7 @@ export const createSubmission = async (
 
         await Submission.create({
             ...parsed.data,
-            filePath, 
+            filePath,
         });
 
         res.status(201).json({

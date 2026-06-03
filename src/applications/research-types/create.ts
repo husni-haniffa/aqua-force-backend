@@ -14,20 +14,20 @@ export const createResearchType = async (
         const parsed = createResearchTypeDTO.safeParse(req.body);
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const { name } = parsed.data;
 
-        const exists = await checkIfExists(ResearchType, {name});
+        const exists = await checkIfExists(ResearchType, { name });
         if (exists) {
             throw new DuplicateError("Research already exists");
         }
 
-         await ResearchType.create(parsed.data);
+        await ResearchType.create(parsed.data);
 
-        res.status(201).json({ 
-            statusCode: 201, 
+        res.status(201).json({
+            statusCode: 201,
             message: "Research Type created successfully"
         });
     } catch (error) {
