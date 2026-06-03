@@ -13,15 +13,11 @@ import adminRouter from './api/admin';
 import publicationRouter from './api/publication';
 import researchTypeRouter from './api/researchType';
 import conductResearchRouter from './api/conduct-research';
+import { clerkMiddleware } from '@clerk/express';
 
 const app = express();
-
 dotenv.config()
-
 connectDatabase()
-
-app.use(express.json())
-
 const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
@@ -29,8 +25,9 @@ const corsOptions = {
     origin: ['https://aqua-force-frontend.vercel.app', 'http://localhost:3000']
 };
 
+app.use(express.json())
 app.use(cors(corsOptions));
-
+app.use(clerkMiddleware());
 app.use('/categories', categoryRouter)
 app.use('/news', newsRouter)
 app.use('/events', eventRouter)
@@ -40,7 +37,6 @@ app.use('/publications', publicationRouter)
 app.use('/research-types', researchTypeRouter)
 app.use('/conduct-research', conductResearchRouter)
 app.use('/admin', adminRouter)
-
 app.use(GlobalErrorHandler)
 
 const startServer = async () => {

@@ -1,4 +1,5 @@
-import clerkClient from "@clerk/clerk-sdk-node";
+
+import { clerkClient } from "@clerk/express";
 import { Request, Response, NextFunction } from "express";
 
 
@@ -17,7 +18,7 @@ export const getUserList = async (
             throw new Error('Failed to fetch users')
         }
 
-        const users = response.map(user => ({
+        const users = response.data.map((user: any) => ({
             userId: user.id,
             emailAddress: user.emailAddresses[0]?.emailAddress || null,
             phoneNumber: user.phoneNumbers[0]?.phoneNumber || null,

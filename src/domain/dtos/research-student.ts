@@ -77,8 +77,8 @@ export const createResearchStudentDTO = z.object({
     minorResearchArea: z
         .string()
         .trim()
-        .min(1, "Please enter a short summary")
-        .max(1000, "Summary is too long"),
+        .min(1, "Minor research area is required")
+        .max(1000, "Minor research area is too long"),
 
     whereWouldYouLikeToConductResearch: z
         .string()
