@@ -1,4 +1,5 @@
 import { Storage } from "@google-cloud/storage";
+import { AppError } from "../domain/errors";
 
 function getGCredentials() {
     if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
@@ -14,7 +15,7 @@ function getGCredentials() {
         };
     }
 
-    throw new Error("❌ No Google Cloud credentials found");
+    throw new AppError("❌ No Google Cloud credentials found", 500);
 }
 
 export const storage = new Storage(getGCredentials());

@@ -16,11 +16,11 @@ export const createEvent = async (
         const parsed = createEventDTO.safeParse(req.body);
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const { title } = parsed.data;
-    
+
 
 
         const exists = await checkIfExists(Event, { title });
@@ -35,21 +35,21 @@ export const createEvent = async (
 
 
         if (req.file) {
-                    imagePath = await uploadToGCS({
-                        file: req.file,
-                        ownerId: eventId.toString(),
-                        folder: "events",
-                        visibility: "public",
-                    });
-        
-                    imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
+            imagePath = await uploadToGCS({
+                file: req.file,
+                ownerId: eventId.toString(),
+                folder: "events",
+                visibility: "public",
+            });
+
+            imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
         }
 
         await Event.create({
-                    ...parsed.data,
-                    imagePath,
-                    imageUrl,
-                });
+            ...parsed.data,
+            imagePath,
+            imageUrl,
+        });
 
         res.status(201).json({
             statusCode: 201,

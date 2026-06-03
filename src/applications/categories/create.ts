@@ -13,20 +13,20 @@ export const createCategory = async (
         const parsed = createCategoryDTO.safeParse(req.body);
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const { name } = parsed.data;
 
-        const exists = await checkIfExists(Category, {name});
+        const exists = await checkIfExists(Category, { name });
         if (exists) {
             throw new DuplicateError("Category already exists");
         }
 
         const category = await Category.create(parsed.data);
 
-        res.status(201).json({ 
-            statusCode: 201, 
+        res.status(201).json({
+            statusCode: 201,
             message: "Category created successfully"
         });
     } catch (error) {
