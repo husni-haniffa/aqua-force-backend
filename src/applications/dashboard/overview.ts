@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { clerkClient, User } from '@clerk/express'; // 1. Import the User type here
+import { clerkClient, User } from '@clerk/express';
 import ResearchHelp from '../../infrastructure/schema/research-help';
 import ResearchIdea from '../../infrastructure/schema/research-idea';
 import ResearchSupervisor from '../../infrastructure/schema/research-supervisor';
@@ -9,9 +9,6 @@ import ResearchStudent from '../../infrastructure/schema/research-students';
 import Submission from '../../infrastructure/schema/submission';
 import Event from '../../infrastructure/schema/events';
 import { formatTimestamps } from '../../infrastructure/utils/formatTimeStamps';
-
-
-
 
 export const getAdminDashboardStats = async (
     req: Request,
@@ -30,7 +27,7 @@ export const getAdminDashboardStats = async (
 
         const [
             totalUsersCount,
-            clerkUsersList, // Type inferred as User[] or PaginatedResourceResponse
+            clerkUsersList,
             upcomingEventsRaw,
             pendingSub,
             underReviewSub,

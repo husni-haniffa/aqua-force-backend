@@ -1,18 +1,15 @@
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import { getAuth } from "@clerk/express";
 import { Request, Response, NextFunction } from "express";
-import UnauthorizedError from "../errors/unauthorized-error";
+import { UnauthorizedError } from "../../domain/errors";
 
-export const requireAuth = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    ClerkExpressRequireAuth({}) (req, res, (err?: any) => {
-        if(err) {
-            return next(
-                new UnauthorizedError('Sign in required')
-            )
+export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId } = getAuth(req);
+        if (!userId) {
+            return next(new UnauthorizedError());
         }
-        next()
-    })
+        next();
+    } catch (error) {
+        next(error);
+    }
 };

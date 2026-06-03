@@ -25,9 +25,11 @@ export const createSubmission = async (
             throw new ValidationError(parsed.error.issues[0].message);
         }
         const { userId } = getAuth(req)
+
         if(!userId) {
             throw new UnauthorizedError()
         }
+        
         const { title } = parsed.data;
 
         const exists = await checkIfExists(Submission, { title });
