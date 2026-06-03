@@ -15,7 +15,7 @@ export const updateEvent = async (
         const parsed = createEventDTO.safeParse(req.body);
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const id = req.params.id
@@ -26,25 +26,25 @@ export const updateEvent = async (
         }
 
         let imagePath = event.imagePath;
-                let imageUrl = event.imageUrl;
-        
-                if (req.file) {
-                    imagePath = await uploadToGCS({
-                        file: req.file,
-                        ownerId: event._id.toString(),
-                        folder: "events",
-                        visibility: "public",
-                        oldFilePath: event.imagePath ?? undefined,
-                    });
-        
-                    imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
-                }
+        let imageUrl = event.imageUrl;
 
-      
+        if (req.file) {
+            imagePath = await uploadToGCS({
+                file: req.file,
+                ownerId: event._id.toString(),
+                folder: "events",
+                visibility: "public",
+                oldFilePath: event.imagePath ?? undefined,
+            });
+
+            imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
+        }
+
+
 
         await Event.findByIdAndUpdate(
             id,
-            {...parsed.data, imagePath, imageUrl},
+            { ...parsed.data, imagePath, imageUrl },
             { new: true, runValidators: true }
         )
 

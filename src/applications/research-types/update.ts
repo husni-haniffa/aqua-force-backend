@@ -12,7 +12,7 @@ export const updateResearchType = async (
         const parsed = createResearchTypeDTO.safeParse(req.body);
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const id = req.params.id

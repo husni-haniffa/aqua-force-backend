@@ -12,7 +12,7 @@ export const createResearchPlacement = async (
     try {
         const parsed = createResearchPlacementDTO.safeParse(req.body)
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
         await ResearchPlacement.create(parsed.data)
         return res.json({

@@ -25,7 +25,7 @@ export const updateSubmission = async (
         });
 
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
 
         const { userId } = getAuth(req)
@@ -46,11 +46,11 @@ export const updateSubmission = async (
             });
         }
 
-     
+
 
         await Submission.findByIdAndUpdate(
             id,
-            {...parsed.data, filePath},
+            { ...parsed.data, filePath },
             { new: true, runValidators: true }
         );
 

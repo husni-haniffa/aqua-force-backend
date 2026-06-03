@@ -13,7 +13,7 @@ export const createResearchIdea = async (
     try {
         const parsed = createResearchIdeaDTO.safeParse(req.body)
         if (!parsed.success) {
-            throw new ValidationError(parsed.error.issues[0].message);
+            throw new ValidationError("Please fill all the required fields")
         }
         const { researchIdea } = parsed.data
         const exists = await checkIfExists(ResearchIdea, { researchIdea });
