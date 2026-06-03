@@ -1,6 +1,7 @@
 
 import { clerkClient } from "@clerk/express";
 import { Request, Response, NextFunction } from "express";
+import { AppError } from "../../domain/errors";
 
 
 export const getUserList = async (
@@ -15,7 +16,7 @@ export const getUserList = async (
         })
 
         if(!response) {
-            throw new Error('Failed to fetch users')
+            throw new AppError('Failed to fetch users', 500)
         }
 
         const users = response.data.map((user: any) => ({
