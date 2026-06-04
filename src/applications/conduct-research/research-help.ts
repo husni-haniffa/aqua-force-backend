@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-
 import { NotFoundError, ValidationError } from "../../domain/errors";
-import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import { createResearchHelpDTO } from "../../domain/dtos/research-help";
 import ResearchHelp from "../../infrastructure/schema/research-help";
 
@@ -32,7 +30,7 @@ export const getAllResearchHelp = async (
 ) => {
     try {
         const response = await ResearchHelp.find().sort({ createdAt: -1 }).populate('categoryId', 'name')
-        const researchHelp = formatTimestamps(response)
+        const researchHelp = response
         res.status(200).json({
             statusCode: 200,
             message: "Research Helps retreived successfully", data: researchHelp
