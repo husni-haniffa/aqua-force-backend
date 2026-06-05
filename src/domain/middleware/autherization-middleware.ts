@@ -21,3 +21,27 @@ export const requireAdmin = (req: Request, res: Response, next: NextFunction) =>
         next(error);
     }
 };
+
+const SUPER_ADMIN_EMAILS = [
+    'husniwfayo@gmail.com',
+];
+
+export const requireSuperAdmin = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId, sessionClaims } = getAuth(req);
+
+        if (!userId) {
+            return next(new UnauthorizedError());
+        }
+
+        const email = (sessionClaims?.email as string) ?? "";
+
+        if (!SUPER_ADMIN_EMAILS.includes(email)) {
+            return next(new ForbiddenError("You do not have permission to perform this action"));
+        }
+
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
