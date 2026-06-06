@@ -7,6 +7,14 @@ const GlobalErrorHandler = (
     res: Response,
     next: NextFunction
 ) => {
+    
+    if (error.status === 413 || error.type === 'entity.too.large') {
+        return res.status(413).json({
+            statusCode: 413,
+            message: 'File too large. Please upload a smaller file.',
+        });
+    }
+
     if (error instanceof AppError) {
         return res.status(error.statusCode).json({
             statusCode: error.statusCode,

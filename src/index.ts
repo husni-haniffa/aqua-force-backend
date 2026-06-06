@@ -16,6 +16,7 @@ import conductResearchRouter from './api/conduct-research';
 import { clerkMiddleware } from '@clerk/express';
 
 const app = express();
+app.set('trust proxy', 1);
 dotenv.config()
 connectDatabase()
 const PORT = process.env.PORT || 3001;

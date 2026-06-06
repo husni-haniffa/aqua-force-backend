@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { createResearchIdeaDTO } from "../../domain/dtos/reseach-idea";
 import { DuplicateError, NotFoundError, ValidationError } from "../../domain/errors";
 import ResearchIdea from "../../infrastructure/schema/research-idea";
-import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import { checkIfExists } from "../../infrastructure/utils/checkIfExists";
 
 export const createResearchIdea = async (
@@ -37,7 +36,7 @@ export const getAllResearchIdea = async (
 ) => {
     try {
         const response = await ResearchIdea.find().sort({ createdAt: -1 }).populate('categoryId', 'name')
-        const researchIdeas = formatTimestamps(response)
+        const researchIdeas = response
         res.status(200).json({
             statusCode: 200,
             message: "Research Ideas retreived successfully", data: researchIdeas

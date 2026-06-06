@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { DuplicateError, NotFoundError, UnauthorizedError, ValidationError } from "../../../domain/errors";
+import { AppError, DuplicateError, NotFoundError, UnauthorizedError, ValidationError } from "../../../domain/errors";
 import Submission from "../../../infrastructure/schema/submission";
 import { uploadToGCS } from "../../../infrastructure/utils/uploadToGCS";
 import { createSubmissionDTO } from "../../../domain/dtos/submission";
@@ -17,6 +17,10 @@ export const updateSubmission = async (
         const submission = await Submission.findById(id);
         if (!submission) {
             throw new NotFoundError('Submission not found');
+        }
+
+        if (submission.status !== 'PENDING') {
+            throw new AppError('Submission can no longer be edited', 403);
         }
 
         const parsed = createSubmissionDTO.safeParse({
