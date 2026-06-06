@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import Event from "../../infrastructure/schema/events";
-import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 
 export const getAllEvents = async (
     req: Request,
@@ -10,7 +9,7 @@ export const getAllEvents = async (
     try {
         const response = await Event.find().sort({ createdAt: -1 });
 
-        const events = formatTimestamps(response);
+        const events = response;
 
         res.status(200).json({
             statusCode: 200,
@@ -35,7 +34,7 @@ export const getActiveEvents = async (
             eventDate: { $gte: today }
         }).sort({ eventDate: 1 });
 
-        const events = formatTimestamps(response);
+        const events = response;
 
         res.status(200).json({
             statusCode: 200,

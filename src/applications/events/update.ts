@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createEventDTO } from "../../domain/dtos/event";
+import { createEventDTO, updateEventDTO } from "../../domain/dtos/event";
 import { DuplicateError, NotFoundError, ValidationError } from "../../domain/errors";
 import { checkIfExists } from "../../infrastructure/utils/checkIfExists";
 import Event from "../../infrastructure/schema/events";
@@ -12,7 +12,7 @@ export const updateEvent = async (
     next: NextFunction
 ) => {
     try {
-        const parsed = createEventDTO.safeParse(req.body);
+        const parsed = updateEventDTO.safeParse(req.body);
 
         if (!parsed.success) {
             throw new ValidationError("Please fill all the required fields")

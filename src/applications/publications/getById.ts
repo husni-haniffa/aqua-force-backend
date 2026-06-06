@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import Submission from "../../infrastructure/schema/submission";
 import { getSignedDownloadUrl } from "../submissions/helper";
 import { NotFoundError } from "../../domain/errors";
-import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 
 export const getPublishedPaperById = async (
     req: Request,
@@ -22,10 +21,8 @@ export const getPublishedPaperById = async (
 
         const signedUrl = await getSignedDownloadUrl(publishedPaper.filePath)
 
-        const formattedPaper = formatTimestamps(
-            publishedPaper.toObject()
-        )
-
+        const formattedPaper = publishedPaper.toObject()
+    
         res.status(200).json({
             statusCode: 200,
             data: {

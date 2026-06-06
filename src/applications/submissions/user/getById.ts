@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { getSignedDownloadUrl } from "../helper";
 import Submission from "../../../infrastructure/schema/submission";
 import { NotFoundError } from "../../../domain/errors";
-import { formatTimestamps } from "../../../infrastructure/utils/formatTimeStamps";
 
 export const getSubmissionById = async (
     req: Request,
@@ -28,11 +27,9 @@ export const getSubmissionById = async (
             filePath,
         }
 
-         const formatReponse = formatTimestamps(response)
-
         res.status(200).json({
             statusCode: 200,
-            data: formatReponse,
+            data: response,
         })
 
     } catch (error) {
