@@ -41,3 +41,16 @@ export const createEventDTO = z.object({
             "Location contains invalid characters"
         ),
 });
+
+export const updateEventDTO = createEventDTO.partial().refine(
+    (data) => {
+        if (data.eventDate !== undefined) {
+            return data.eventDate > new Date();
+        }
+        return true;
+    },
+    {
+        message: "Date must be in the future",
+        path: ["eventDate"],
+    }
+);

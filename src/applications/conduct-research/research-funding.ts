@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createResearchFundingDTO } from "../../domain/dtos/research-funding";
 import { NotFoundError, ValidationError } from "../../domain/errors";
-import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 import ResearchFunding from "../../infrastructure/schema/research-funding";
 
 export const createResearchFunding = async (
@@ -31,7 +30,7 @@ export const getAllResearchFunding = async (
 ) => {
     try {
         const response = await ResearchFunding.find().sort({ createdAt: -1 }).populate('categoryId', 'name')
-        const researchFundings = formatTimestamps(response)
+        const researchFundings = response
         res.status(200).json({
             statusCode: 200,
             message: "Research Ideas retreived successfully", data: researchFundings

@@ -8,7 +8,6 @@ import ResearchPlacement from '../../infrastructure/schema/research-placement';
 import ResearchStudent from '../../infrastructure/schema/research-students';
 import Submission from '../../infrastructure/schema/submission';
 import Event from '../../infrastructure/schema/events';
-import { formatTimestamps } from '../../infrastructure/utils/formatTimeStamps';
 
 export const getAdminDashboardStats = async (
     req: Request,
@@ -28,7 +27,7 @@ export const getAdminDashboardStats = async (
         const [
             totalUsersCount,
             clerkUsersList,
-            upcomingEventsRaw,
+            upcomingEvents,
             pendingSub,
             underReviewSub,
             rejectedSub,
@@ -67,8 +66,6 @@ export const getAdminDashboardStats = async (
             (user: User) => user.createdAt >= seventyTwoHoursAgo
         ).length;
 
-        const formattedEvents = formatTimestamps(upcomingEventsRaw);
-
         return res.status(200).json({
             statusCode: 200,
             success: true,
@@ -95,7 +92,7 @@ export const getAdminDashboardStats = async (
                     student: studentCount,
                     total: ideaCount + helpCount + supervisorCount + fundingCount + placementCount + studentCount
                 },
-                upcomingEvents: formattedEvents
+                upcomingEvents: upcomingEvents
             }
         });
 

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Category from "../../infrastructure/schema/category";
 import { NotFoundError } from "../../domain/errors";
-import { formatTimestamps } from "../../infrastructure/utils/formatTimeStamps";
 
 export const getCategoryById = async (
     req: Request,
@@ -13,7 +12,7 @@ export const getCategoryById = async (
         if (!response) {
             throw new NotFoundError('Category not found')
         }
-        const category = formatTimestamps(response)
+        const category = response
         return res.status(200).json({
             statusCode: 200,
             message: "Category found successfully", data: category
