@@ -24,6 +24,9 @@ export const requireAdmin = (req: Request, res: Response, next: NextFunction) =>
 
 const SUPER_ADMIN_EMAILS = [
     'husniwfayo@gmail.com',
+    'epdarshananuwan@gmail.com',
+    'udithathejan@gmail.com',
+    'mrinduniltharaka@gmail.com'
 ];
 
 export const requireSuperAdmin = (req: Request, res: Response, next: NextFunction) => {

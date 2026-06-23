@@ -23,7 +23,11 @@ const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
     credentials: true,
-    origin: ['https://aqua-force-frontend.vercel.app', 'http://localhost:3000', 'https://researchmindsnet.com']
+    origin: [
+        'researchmindsnet-dev.vercel.app',
+        'researchmindsnet.com',
+        'http://localhost:3000', 
+    ]
 };
 
 app.use(express.json())
