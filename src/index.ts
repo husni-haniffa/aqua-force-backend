@@ -20,39 +20,16 @@ app.set('trust proxy', 1);
 dotenv.config()
 const PORT = process.env.PORT || 3001;
 
-const allowedOrigins = [
-    'https://researchmindsnet-dev.vercel.app',
-    'https://researchmindsnet.com',
-    'http://localhost:3000',
-];
-
 const corsOptions = {
     credentials: true,
-    origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    // Add this to accept Vercel's automation and protection headers
-    allowedHeaders: [
-        'Origin',
-        'X-Requested-With',
-        'Content-Type',
-        'Accept',
-        'Authorization',
-        'x-vercel-protection-bypass', // Allows Vercel preview bypass
-        'x-vercel-set-bypass-cookie'
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+    origin: [
+        'https://dev.researchmindsnet.com',
+        'https://researchmindsnet.com',
+        'http://localhost:3000',
+    ]
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-
-
 app.use(express.json());
 app.use(clerkMiddleware());
 
@@ -65,6 +42,7 @@ app.use('/publications', publicationRouter)
 app.use('/research-types', researchTypeRouter)
 app.use('/conduct-research', conductResearchRouter)
 app.use('/admin', adminRouter)
+
 app.use(GlobalErrorHandler)
 
 const startServer = async () => {
