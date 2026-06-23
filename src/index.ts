@@ -18,7 +18,6 @@ import { clerkMiddleware } from '@clerk/express';
 const app = express();
 app.set('trust proxy', 1);
 dotenv.config()
-connectDatabase()
 const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
@@ -29,10 +28,12 @@ const corsOptions = {
         'http://localhost:3000',
     ]
 };
-
-app.use(express.json())
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+app.use(express.json());
 app.use(clerkMiddleware());
+
 app.use('/categories', categoryRouter)
 app.use('/news', newsRouter)
 app.use('/events', eventRouter)
