@@ -24,9 +24,9 @@ const PORT = process.env.PORT || 3001;
 const corsOptions = {
     credentials: true,
     origin: [
-        'researchmindsnet-dev.vercel.app',
-        'researchmindsnet.com',
-        'http://localhost:3000', 
+        'https://researchmindsnet-dev.vercel.app',
+        'https://researchmindsnet.com',
+        'http://localhost:3000',
     ]
 };
 
