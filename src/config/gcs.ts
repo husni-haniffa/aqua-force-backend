@@ -8,12 +8,6 @@ function getGCredentials() {
             projectId: process.env.GCLOUD_PROJECT_ID,
         };
     }
-    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-        return {
-            keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-            projectId: process.env.GCLOUD_PROJECT_ID,
-        };
-    }
 
     throw new AppError("❌ No Google Cloud credentials found", 500);
 }
