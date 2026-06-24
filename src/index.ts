@@ -16,36 +16,23 @@ import conductResearchRouter from './api/conduct-research';
 import { clerkMiddleware } from '@clerk/express';
 
 const app = express();
+
+const port = 3001;
+
 app.set('trust proxy', 1);
+
 dotenv.config()
 
-const PORT = process.env.PORT || 3001;
-
-const allowedOrigins = [
-    'https://researchmindsnet.com',
-    'https://dev.researchmindsnet.com',
-    'http://localhost:3000',
-];
+connectDatabase()
 
 app.use(
     cors({
-        origin(origin, callback) {
-            if (!origin) return callback(null, true);
-
-            if (allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        origin: ["http://localhost:3000", "https://dev.researchmindsnet.com", "https://www.researchmindsnet.com"],
     })
 );
 
-app.options('*', cors());
 app.use(express.json());
+
 app.use(clerkMiddleware());
 
 app.use('/categories', categoryRouter)
@@ -60,17 +47,8 @@ app.use('/admin', adminRouter)
 
 app.use(GlobalErrorHandler)
 
-const startServer = async () => {
-    try {
-        await connectDatabase();
+app.listen(port, () => {
+    console.log(`API listening on port ${port}`);
+});
 
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-
-    } catch (error) {
-        console.error("Server startup failed", error);
-    }
-};
-
-startServer();
+export default app;
