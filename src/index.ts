@@ -19,34 +19,15 @@ const app = express();
 app.set('trust proxy', 1);
 dotenv.config()
 
-const PORT = process.env.PORT || 3001;
-
-const allowedOrigins = [
-    'https://researchmindsnet.com',
-    'https://www.researchmindsnet.com',
-    'https://dev.researchmindsnet.com',
-    'http://localhost:3000',
-];
-
-app.use(
-    cors({
-        origin(origin, callback) {
-            if (!origin) return callback(null, true);
-
-            if (allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-    })
-);
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.options('*', cors());
 app.use(express.json());
+
 app.use(clerkMiddleware());
 
 app.use('/categories', categoryRouter)
@@ -63,7 +44,7 @@ app.use(GlobalErrorHandler)
 
 const startServer = async () => {
     try {
-        
+
         await connectDatabase();
 
     } catch (error) {
