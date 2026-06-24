@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 3001;
 
 const allowedOrigins = [
     'https://researchmindsnet.com',
+    'https://www.researchmindsnet.com',
     'https://dev.researchmindsnet.com',
     'http://localhost:3000',
 ];
@@ -62,11 +63,8 @@ app.use(GlobalErrorHandler)
 
 const startServer = async () => {
     try {
+        
         await connectDatabase();
-
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
 
     } catch (error) {
         console.error("Server startup failed", error);
@@ -74,3 +72,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+export default app;
