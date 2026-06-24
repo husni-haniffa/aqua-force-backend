@@ -27,7 +27,7 @@ connectDatabase()
 
 app.use(
     cors({
-        origin: ["http://localhost:3000", "https://dev.researchmindsnet.com", "https://www.researchmindsnet.com"],
+        origin: ["http://localhost:3000", "https://research-minds-net-frontend.vercel.app", "https://www.researchmindsnet.com"],
     })
 );
 
