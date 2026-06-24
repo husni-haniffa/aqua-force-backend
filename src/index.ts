@@ -18,21 +18,38 @@ import { clerkMiddleware } from '@clerk/express';
 const app = express();
 app.set('trust proxy', 1);
 dotenv.config()
-connectDatabase()
+
 const PORT = process.env.PORT || 3001;
 
-const corsOptions = {
-    credentials: true,
-    origin: [
-        'https://researchmindsnet-dev.vercel.app',
-        'https://researchmindsnet.com',
-        'http://localhost:3000',
-    ]
-};
+const allowedOrigins = [
+    'https://researchmindsnet.com',
+    'https://dev.researchmindsnet.com',
+    'http://localhost:3000',
+];
 
-app.use(express.json())
-app.use(cors(corsOptions));
+app.use(
+    cors({
+        origin(origin, callback) {
+            if (!origin) return callback(null, true);
+
+            if (allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+);
+
+// add this line
+app.options('*', cors());
+
+app.use(express.json());
 app.use(clerkMiddleware());
+
 app.use('/categories', categoryRouter)
 app.use('/news', newsRouter)
 app.use('/events', eventRouter)
@@ -42,6 +59,7 @@ app.use('/publications', publicationRouter)
 app.use('/research-types', researchTypeRouter)
 app.use('/conduct-research', conductResearchRouter)
 app.use('/admin', adminRouter)
+
 app.use(GlobalErrorHandler)
 
 const startServer = async () => {
