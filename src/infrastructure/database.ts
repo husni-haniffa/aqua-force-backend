@@ -9,7 +9,7 @@ export const connectDatabase = async () => {
         if (!process.env.MONGODB_URI) {
             throw new AppError("MONGO_URI is not defined",500);
         }
-
+        console.log('Database connected')
         await mongoose.connect(process.env.MONGODB_URI);
 
     } catch (error) {

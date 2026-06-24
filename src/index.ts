@@ -16,16 +16,21 @@ import conductResearchRouter from './api/conduct-research';
 import { clerkMiddleware } from '@clerk/express';
 
 const app = express();
+
+const port = 3001;
+
 app.set('trust proxy', 1);
+
 dotenv.config()
 
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+connectDatabase()
 
-app.options('*', cors());
+app.use(
+    cors({
+        origin: ["http://localhost:3000", "https://dev.researchmindsnet.com", "https://www.researchmindsnet.com" ],
+    })
+);
+
 app.use(express.json());
 
 app.use(clerkMiddleware());
@@ -42,16 +47,8 @@ app.use('/admin', adminRouter)
 
 app.use(GlobalErrorHandler)
 
-const startServer = async () => {
-    try {
-
-        await connectDatabase();
-
-    } catch (error) {
-        console.error("Server startup failed", error);
-    }
-};
-
-startServer();
+app.listen(port, () => {
+    console.log(`API listening on port ${port}`);
+});
 
 export default app;
