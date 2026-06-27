@@ -32,6 +32,7 @@ app.use(
             "https://research-minds-net-frontend.vercel.app", 
             "https://www.researchmindsnet.com",
             "https://researchmindsnetdev.netlify.app",
+            "https://dev.researchmindsnet.com"
         ],
     })
 );
