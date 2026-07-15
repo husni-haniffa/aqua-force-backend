@@ -5,6 +5,8 @@ import { checkIfExists } from "../../../infrastructure/utils/checkIfExists";
 import Submission from "../../../infrastructure/schema/submission";
 import { uploadToGCS } from "../../../infrastructure/utils/uploadToGCS";
 import { getAuth } from "@clerk/express";
+import { getUser } from "../../../infrastructure/utils/getUser";
+import { sendSubmissionReceivedEmail } from "../../../infrastructure/utils/emails/submission";
 
 export const createSubmission = async (
     req: Request,
@@ -48,6 +50,24 @@ export const createSubmission = async (
             ...parsed.data,
             filePath,
         });
+
+        const { userName, userEmail } = await getUser(userId)
+
+        if(userName && userEmail) {
+            try {
+                const response = await sendSubmissionReceivedEmail({
+                    authorName: userName,
+                    email: userEmail,
+                    submissionTitle: parsed.data.title
+                })
+                if(!response.success) {
+                    console.error('Email send failed, continuing anyway:', response.error);
+                }
+            } catch (error) {
+                console.error('Unexpected error in email flow:', error);
+            }
+           
+        }
 
         res.status(201).json({
             statusCode: 201,

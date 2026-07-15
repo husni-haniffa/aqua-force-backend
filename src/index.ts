@@ -1,6 +1,6 @@
 import 'express-async-errors';
 import express from 'express';
-import { connectDatabase } from './infrastructure/database';
+import { connectDatabase } from './config/database';
 import dotenv from 'dotenv'
 import categoryRouter from './api/category';
 import GlobalErrorHandler from './domain/middleware/global-error-handler';
