@@ -1,5 +1,5 @@
 import 'express-async-errors';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { connectDatabase } from './config/database';
 import dotenv from 'dotenv'
 import categoryRouter from './api/category';
@@ -14,6 +14,7 @@ import publicationRouter from './api/publication';
 import researchTypeRouter from './api/researchType';
 import conductResearchRouter from './api/conduct-research';
 import { clerkMiddleware } from '@clerk/express';
+
 
 const app = express();
 
