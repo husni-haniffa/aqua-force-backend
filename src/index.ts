@@ -1,6 +1,6 @@
 import 'express-async-errors';
-import express from 'express';
-import { connectDatabase } from './infrastructure/database';
+import express, { Request, Response } from 'express';
+import { connectDatabase } from './config/database';
 import dotenv from 'dotenv'
 import categoryRouter from './api/category';
 import GlobalErrorHandler from './domain/middleware/global-error-handler';
@@ -27,13 +27,20 @@ connectDatabase()
 
 app.use(
     cors({
-        origin: ["http://localhost:3000", "https://dev.researchmindsnet.com", "https://www.researchmindsnet.com" ],
+        origin: [
+            "http://localhost:3000",
+            "https://research-minds-net-frontend.vercel.app",
+            "https://www.researchmindsnet.com",
+            "https://researchmindsnetdev.netlify.app",
+            "https://dev.researchmindsnet.com"
+        ],
     })
 );
 
 app.use(express.json());
 
 app.use(clerkMiddleware());
+
 
 app.use('/categories', categoryRouter)
 app.use('/news', newsRouter)

@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { SubmissionStatus, updateSubmission } from "./helper";
-import { ValidationError } from "../../../domain/errors";
+import { NotFoundError, ValidationError } from "../../../domain/errors";
 import Submission from "../../../infrastructure/schema/submission";
+import { getUser } from "../../../infrastructure/utils/getUser";
+import { sendSubmissionApprovedEmail, sendSubmissionPublishedEmail, sendSubmissionRejectedEmail, sendSubmissionRequestChangesEmail } from "../../../infrastructure/utils/emails/submission";
+import { getUserById } from "../../users/getUserById";
 
 export const statusUnderReview = async (
     req: Request,
@@ -24,38 +27,127 @@ export const statusUnderReview = async (
     }
 }
 
-export const statusApproved = async (
-     req: Request,
+export const statusRequestChanges = async (
+    req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
+        const { message } = req.body;
+
+        if (!message || typeof message !== "string" || !message.trim()) {
+            throw new ValidationError("A message explaining the requested changes is required");
+        }
+
         const updated = await updateSubmission({
             id: req.params.id,
             allowedStatus: SubmissionStatus.UNDER_REVIEW,
-            update: { status: SubmissionStatus.ACCEPTED },
+            update: {
+                status: SubmissionStatus.CHANGES_REQUESTED,
+                reviewMessage: message.trim(),
+            },
         })
 
+        const user = await getUserById(updated.userId)
+
+        if (user) {
+            try {
+                const response = await sendSubmissionRequestChangesEmail({
+                    authorName: user.name,
+                    email: user.email,
+                    submissionTitle: updated.title,
+                    requestedChanges: message.trim(),
+                });
+                if (!response.success) console.error('Email send failed:', response.error);
+            } catch (error) {
+                console.error('Unexpected error in email flow:', error);
+            }
+        }
+
         res.status(200).json({
-            message: "Submission approved",
+            message: "Changes requested",
             data: updated,
         })
     } catch (error) {
         next(error)
     }
 }
-
-export const statusReject = async (
-     req: Request,
+export const statusApproved = async (
+    req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
         const updated = await updateSubmission({
             id: req.params.id,
-            allowedStatus: SubmissionStatus.UNDER_REVIEW,
-            update: { status: SubmissionStatus.REJECTED },
+            allowedStatus: [SubmissionStatus.UNDER_REVIEW, SubmissionStatus.CHANGES_REQUESTED],
+            update: { status: SubmissionStatus.ACCEPTED },
         })
+
+        const user = await getUserById(updated.userId)
+
+        if (user) {
+            try {
+                const response = await sendSubmissionApprovedEmail({
+                    authorName: user.name,
+                    email: user.email,
+                    submissionTitle: updated.title
+                })
+
+                if (!response.success) {
+                    console.error('Email send failed, continuing anyway:', response.error);
+                }
+            } catch (error) {
+                console.error('Unexpected error in email flow:', error);
+            }
+        }
+        res.status(200).json({
+            message: "Submission approved",
+            data: updated,
+        })
+
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const statusReject = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { reason } = req.body
+
+        if (!reason || typeof reason !== "string" || !reason.trim()) {
+            throw new ValidationError("A rejection reason is required");
+        }
+
+        const updated = await updateSubmission({
+            id: req.params.id,
+            allowedStatus: [SubmissionStatus.UNDER_REVIEW, SubmissionStatus.CHANGES_REQUESTED],
+            update: {
+                status: SubmissionStatus.REJECTED,
+                reviewMessage: reason.trim(),
+            },
+        })
+
+        const user = await getUserById(updated.userId)
+
+        if (user) {
+            try {
+                const response = await sendSubmissionRejectedEmail({
+                    authorName: user.name,
+                    email: user.email,
+                    submissionTitle: updated.title,
+                    rejectedReason: reason.trim(),
+                });
+                if (!response.success) console.error('Email send failed:', response.error);
+            } catch (error) {
+                console.error('Unexpected error in email flow:', error);
+            }
+        }
 
         res.status(200).json({
             message: "Submission rejected",
@@ -94,6 +186,22 @@ export const publishSubmission = async (
             throw new ValidationError(
                 "Submission must be accepted before publishing"
             )
+        }
+
+        const user = await getUserById(updated.userId)
+
+        if (user) {
+            try {
+                const response = await sendSubmissionPublishedEmail({
+                    authorName: user.name,
+                    email: user.email,
+                    submissionTitle: updated.title,
+                    publishedUrl: `${process.env.FRONTEND_URL}/publications/${updated._id}/read`,
+                });
+                if (!response.success) console.error('Email send failed:', response.error);
+            } catch (error) {
+                console.error('Unexpected error in email flow:', error);
+            }
         }
 
         res.status(200).json({

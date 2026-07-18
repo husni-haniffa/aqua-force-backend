@@ -24,7 +24,7 @@ export const uploadToGCS = async ({
         await deleteFromGCS(oldFilePath);
     }
 
-    const filePath = oldFilePath ?? `${visibility}/${folder}/${safeOwnerId}/${uuid()}-${file.originalname}`;
+    const filePath = `${visibility}/${folder}/${safeOwnerId}/${uuid()}-${file.originalname}`;
     const blob = bucket.file(filePath);
 
     const stream = blob.createWriteStream({
