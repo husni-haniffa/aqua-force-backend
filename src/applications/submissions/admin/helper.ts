@@ -5,7 +5,8 @@ export enum SubmissionStatus {
     PENDING = "PENDING",
     UNDER_REVIEW = "UNDER_REVIEW",
     ACCEPTED = "ACCEPTED",
-    REJECTED = "REJECTED"
+    REJECTED = "REJECTED",
+    CHANGES_REQUESTED = 'CHANGES_REQUESTED'
 }
 
 export enum AccessLevel {

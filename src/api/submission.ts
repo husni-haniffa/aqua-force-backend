@@ -1,7 +1,7 @@
 
 import express from 'express'
 import { requireAuth, requireAdmin } from '../domain/middleware'
-import { deleteSubmission, getAllSubmissions, statusApproved, statusReject, statusUnderReview, publishSubmission, addSocialMediaLinks, updateSocialMediaLinks } from '../applications/submissions/admin'
+import { deleteSubmission, getAllSubmissions, statusApproved, statusReject, statusUnderReview, statusRequestChanges, publishSubmission, addSocialMediaLinks, updateSocialMediaLinks } from '../applications/submissions/admin'
 
 const submissionRouter = express.Router()
 
@@ -10,6 +10,7 @@ submissionRouter.route('/delete/:id').delete(requireAuth, requireAdmin, deleteSu
 submissionRouter.route('/review/:id').put(requireAuth, requireAdmin, statusUnderReview)
 submissionRouter.route('/accept/:id').put(requireAuth, requireAdmin, statusApproved)
 submissionRouter.route('/reject/:id').put(requireAuth, requireAdmin, statusReject)
+submissionRouter.route('/request-changes/:id').put(requireAuth, requireAdmin, statusRequestChanges)
 submissionRouter.route('/publish/:id').put(requireAuth, requireAdmin, publishSubmission)
 submissionRouter.route('/add-social-media-links/:id').post(requireAuth, requireAdmin, addSocialMediaLinks)
 submissionRouter.route('/update-social-media-links/:id').put(requireAuth, requireAdmin, updateSocialMediaLinks)
