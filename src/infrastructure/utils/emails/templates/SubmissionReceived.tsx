@@ -18,60 +18,57 @@ export default function SubmissionReceived({
     submissionTitle,
 }: SubmissionEmailProps) {
     return (
-        <Html>
-            <Head />
-            <Tailwind config={{ presets: [pixelBasedPreset] }}>
+        <Tailwind config={{ presets: [pixelBasedPreset] }}>
+            <Html>
+                <Head />
+
                 <Preview>
-                    We&apos;ve received your research submission to Research Minds Net.
+                    Thanks for submitting your research. Our team will review it and keep you updated.
                 </Preview>
 
-                <Body className="bg-gray-100 font-sans">
-                    <Container className="mx-auto my-10 max-w-[600px] rounded-lg bg-white px-6 py-10 sm:px-4 sm:py-6">
+                <Body>
+                    <Container>
                         <Section>
-                            <Heading className="mb-4 text-center text-[22px] font-bold leading-tight text-gray-900 sm:text-[20px]">
-                                Submission Received
-                            </Heading>
-
-                            <Text className="text-[15px] leading-6 text-gray-800">
+                            <Text>
                                 Dear {authorName},
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Thank you for submitting your research,{" "}
-                                <strong>&ldquo;{submissionTitle}&rdquo;</strong>, to Research Minds
-                                Net. We have successfully received your submission and it is now
-                                queued for review.
+                            <Text>
+                                Thank you for submitting your research,
+                                <br />
+                                <br />
+                                <strong>&ldquo;{submissionTitle}&rdquo;</strong>.
+                                <br />
+                                <br />
+                                We have successfully received your submission and it is now under review.
                             </Text>
 
-                            <Hr className="my-6 border-gray-200" />
+                            <Hr />
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Our editorial team will carefully evaluate your work, and you will
-                                be notified by email as soon as a decision has been made regarding
-                                the next steps.
+                            <Text>
+                                Our team will review your submission and you will receive an email once
+                                there is an update regarding the next steps.
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                If you have any questions in the meantime, please don&apos;t
-                                hesitate to reach out to our support team. We&apos;re always happy
-                                to help.
+                            <Text>
+                                If you have any questions, please feel free to contact our support team.
                             </Text>
 
-                            <Hr className="my-6 border-gray-200" />
+                            <Hr />
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Thank you for choosing Research Minds Net to share your research.
+                            <Text>
+                                Thank you for sharing your research with Research Minds Net.
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
+                            <Text>
                                 Kind regards,
                                 <br />
-                                Research Minds Net Management Team
+                                Research Minds Net Team
                             </Text>
                         </Section>
                     </Container>
                 </Body>
-            </Tailwind>
-        </Html>
+            </Html>
+        </Tailwind>
     );
 }

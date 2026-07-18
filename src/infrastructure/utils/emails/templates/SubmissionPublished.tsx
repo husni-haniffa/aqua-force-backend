@@ -20,64 +20,59 @@ export default function SubmissionPublished({
     publishedUrl,
 }: SubmissionEmailProps) {
     return (
-        <Html>
-            <Head />
-            <Tailwind config={{ presets: [pixelBasedPreset] }}>
+        <Tailwind config={{ presets: [pixelBasedPreset] }}>
+            <Html>
+                <Head />
+
                 <Preview>
-                    Great news! Your research has been published on Research Minds Net.
+                    Congratulations! Your research is now live and available to readers.
                 </Preview>
 
-                <Body className="bg-gray-100 font-sans">
-                    <Container className="mx-auto my-10 max-w-[600px] rounded-lg bg-white px-6 py-10 sm:px-4 sm:py-6">
+                <Body>
+                    <Container>
                         <Section>
-                            <Heading className="mb-4 text-center text-[22px] font-bold leading-tight text-gray-900 sm:text-[20px]">
-                                Your Research Has Been Published
-                            </Heading>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
+                            <Text>
                                 Dear {authorName},
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                We are delighted to inform you that your research,{" "}
-                                <strong>&ldquo;{submissionTitle}&rdquo;</strong>, has been
-                                officially published on Research Minds Net.
+                            <Text>
+                                Congratulations! Your research,
+                                <br />
+                                <br />
+                                <strong>&ldquo;{submissionTitle}&rdquo;</strong>,
+                                <br />
+                                <br />
+                                has been published on Research Minds Net.
                             </Text>
 
-                            <Section className="my-6 text-center">
-                                <Button
-                                    href={publishedUrl}
-                                    className="rounded-md bg-gray-900 px-6 py-3 text-[14px] font-semibold text-white"
-                                >
+                            <Section>
+                                <Button href={publishedUrl}>
                                     View Published Research
                                 </Button>
                             </Section>
 
-                            <Text className="break-all text-[13px] leading-6 text-gray-500">
-                                Or copy this link into your browser: {publishedUrl}
+                            <Text>
+                                You can access your published research using the link above.
                             </Text>
 
-                            <Hr className="my-6 border-gray-200" />
+                            <Hr />
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Congratulations on this achievement. We encourage you to share
-                                this publication with your peers and network.
+                            <Text>
+                                Thank you for sharing your work with Research Minds Net.
+                                We appreciate your contribution and look forward to more research
+                                from you in the future.
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Thank you for choosing Research Minds Net to share your research,
-                                and we look forward to your future contributions.
-                            </Text>
-
-                            <Text className="text-[15px] leading-6 text-gray-800">
+                            <Text>
                                 Kind regards,
                                 <br />
-                                Research Minds Net Management Team
+                                Research Minds Net Team
                             </Text>
                         </Section>
                     </Container>
                 </Body>
-            </Tailwind>
-        </Html>
+            </Html>
+        </Tailwind>
     );
 }

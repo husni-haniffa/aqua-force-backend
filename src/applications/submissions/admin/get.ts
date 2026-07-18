@@ -8,7 +8,7 @@ export const getAllSubmissions= async (
     next: NextFunction
 ) => {
     try {
-        const submissions = await Submission.find().sort({ createdAt: -1 }).populate([
+        const submissions = await Submission.find().sort({ updatedAt: -1 }).populate([
             { path: 'categoryId', select: 'name' },
             { path: 'researchTypeId', select: 'name' }
         ]);

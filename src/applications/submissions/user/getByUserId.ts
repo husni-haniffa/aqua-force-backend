@@ -21,7 +21,7 @@ export const getSubmissionByUserId = async (
         const submissions = await Submission.find({ userId: userId }).populate([
             { path: 'categoryId', select: 'name' },
             { path: 'researchTypeId', select: 'name' }
-        ]).sort({ createdAt: -1 })
+        ]).sort({ updatedAt: -1 })
 
         const response = await Promise.all(
             submissions.map(async (submission) => ({

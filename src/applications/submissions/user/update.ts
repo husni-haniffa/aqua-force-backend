@@ -19,7 +19,11 @@ export const updateSubmission = async (
             throw new NotFoundError('Submission not found');
         }
 
-        if (submission.status !== 'PENDING') {
+        const canEdit =
+            submission.status === 'PENDING' ||
+            (submission.status === 'CHANGES_REQUESTED' && submission.revisionCount === 0);
+
+        if (!canEdit) {
             throw new AppError('Submission can no longer be edited', 403);
         }
 
@@ -50,11 +54,16 @@ export const updateSubmission = async (
             });
         }
 
+        const updatePayload: Record<string, any> = { ...parsed.data, filePath };
 
+        if (submission.status === 'CHANGES_REQUESTED') {
+            updatePayload.status = 'UNDER_REVIEW'; 
+            updatePayload.revisionCount = 1;  
+        }
 
         await Submission.findByIdAndUpdate(
             id,
-            { ...parsed.data, filePath },
+            updatePayload,
             { new: true, runValidators: true }
         );
 

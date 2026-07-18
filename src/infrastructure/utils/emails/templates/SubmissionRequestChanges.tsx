@@ -19,66 +19,69 @@ export default function SubmissionRequestChanges({
     requestedChanges,
 }: SubmissionEmailProps) {
     return (
-        <Html>
-            <Head />
-            <Tailwind config={{ presets: [pixelBasedPreset] }}>
+        <Tailwind config={{ presets: [pixelBasedPreset] }}>
+            <Html>
+                <Head />
+
                 <Preview>
-                    Revisions requested for your research submission to Research Minds Net.
+                    Your submission needs a few revisions before we can continue the review process.
                 </Preview>
 
-                <Body className="bg-gray-100 font-sans">
-                    <Container className="mx-auto my-10 max-w-[600px] rounded-lg bg-white px-6 py-10 sm:px-4 sm:py-6">
+                <Body>
+                    <Container>
                         <Section>
-                            <Heading className="mb-4 text-center text-[22px] font-bold leading-tight text-gray-900 sm:text-[20px]">
-                                Revisions Requested
-                            </Heading>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
+                            <Text>
                                 Dear {authorName},
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Thank you for submitting your research,{" "}
-                                <strong>&ldquo;{submissionTitle}&rdquo;</strong>, to Research Minds
-                                Net. Our editorial team has reviewed your submission and would
-                                like you to address a few points before we can proceed further.
+                            <Text>
+                                We have reviewed your submission,
+                                <br />
+                                <br />
+                                <strong>&ldquo;{submissionTitle}&rdquo;</strong>,
+                                <br />
+                                <br />
+                                and would like you to make a few changes before we continue with
+                                the review process.
                             </Text>
 
-                            <Section className="my-6 rounded-md bg-gray-50 px-4 py-4">
-                                <Text className="m-0 text-[14px] font-semibold text-gray-700">
+                            <Section>
+                                <Text>
                                     Requested changes:
                                 </Text>
-                                <Text className="mb-0 mt-2 text-[15px] leading-6 text-gray-800">
+
+                                <Text>
                                     {requestedChanges}
                                 </Text>
                             </Section>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Please revise your submission accordingly and resubmit it at your
-                                earliest convenience so our review process can continue.
+                            <Text>
+                                Please update your submission based on the feedback above and
+                                resubmit it when ready. Our team will continue the review process
+                                once the changes have been made.
                             </Text>
 
-                            <Hr className="my-6 border-gray-200" />
+                            <Hr />
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                If you have any questions about the requested changes, please
-                                don&apos;t hesitate to contact our support team. We&apos;re always
-                                happy to help.
+                            <Text>
+                                If you have any questions about the requested changes, please feel
+                                free to contact our support team.
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
-                                Thank you for your continued contribution to Research Minds Net.
+                            <Text>
+                                Thank you for your contribution to Research Minds Net.
                             </Text>
 
-                            <Text className="text-[15px] leading-6 text-gray-800">
+                            <Text>
                                 Kind regards,
                                 <br />
-                                Research Minds Net Management Team
+                                Research Minds Net Team
                             </Text>
                         </Section>
                     </Container>
                 </Body>
-            </Tailwind>
-        </Html>
+            </Html>
+        </Tailwind>
     );
 }

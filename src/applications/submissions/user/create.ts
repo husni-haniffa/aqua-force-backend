@@ -7,6 +7,7 @@ import { uploadToGCS } from "../../../infrastructure/utils/uploadToGCS";
 import { getAuth } from "@clerk/express";
 import { getUser } from "../../../infrastructure/utils/getUser";
 import { sendSubmissionReceivedEmail } from "../../../infrastructure/utils/emails/submission";
+import { getUserById } from "../../users/getUserById";
 
 export const createSubmission = async (
     req: Request,
@@ -50,14 +51,14 @@ export const createSubmission = async (
             ...parsed.data,
             filePath,
         });
+const user = await getUserById(userId)
 
-        const { userName, userEmail } = await getUser(userId)
 
-        if(userName && userEmail) {
+        if (user) {
             try {
                 const response = await sendSubmissionReceivedEmail({
-                    authorName: userName,
-                    email: userEmail,
+                    authorName: user.name,
+                    email: user.email,
                     submissionTitle: parsed.data.title
                 })
                 if(!response.success) {

@@ -17,7 +17,7 @@ export async function sendSubmissionReceivedEmail(
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email || 'researchmindsnet@gmail.com',
-        subject: 'Submission Received',
+        subject: "We've received your submission",
         html
     })
 
@@ -47,7 +47,7 @@ export async function sendSubmissionApprovedEmail(
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email || 'researchmindsnet@gmail.com',
-        subject: 'Submission Approved',
+        subject: "Your submission has been approved",
         html
     })
 
@@ -78,7 +78,7 @@ export async function sendSubmissionRejectedEmail(
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email || 'researchmindsnet@gmail.com',
-        subject: 'Submission Rejected',
+        subject: 'Update on your submission',
         html
     })
 
@@ -109,7 +109,7 @@ export async function sendSubmissionPublishedEmail(
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email || 'researchmindsnet@gmail.com',
-        subject: 'Submission Published',
+        subject: 'Your research is now published',
         html
     })
 
@@ -140,7 +140,7 @@ export async function sendSubmissionRequestChangesEmail(
     const { data, error } = await resend.emails.send({
         from: FROM,
         to: email || 'researchmindsnet@gmail.com',
-        subject: 'Submission Requested Changes',
+        subject: 'Changes requested for your submission',
         html
     })
 
