@@ -42,7 +42,7 @@ const submissionSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ['PENDING', 'UNDER_REVIEW', 'REJECTED', 'ACCEPTED'],
+            enum: ['PENDING', 'UNDER_REVIEW', 'CHANGES_REQUESTED', 'REJECTED', 'ACCEPTED'],
             default: 'PENDING'
         },
         isPublished: {
@@ -60,6 +60,8 @@ const submissionSchema = new mongoose.Schema(
             instagram: { type: String, default: null, trim: true },
             linkedin: { type: String, default: null, trim: true },
         },
+        revisionCount: { type: Number, default: 0 },
+        reviewMessage: { type: String, default: '' },
     },
     {
         timestamps: true
