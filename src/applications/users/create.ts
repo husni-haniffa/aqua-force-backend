@@ -54,8 +54,8 @@ export const verifyUserOnboarded = async (
         if(!userId) {
             throw new UnauthorizedError()
         }
-        await upsertUser(userId)
-        
+        const user = await upsertUser(userId)
+        return res.status(200).json({ user })
     } catch (error) {
         next(error)
     }
