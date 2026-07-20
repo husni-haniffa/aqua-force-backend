@@ -20,6 +20,6 @@ export const submissionUpload = createUploader({
         'application/msword',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ],
-    maxSizeMB: 10,
+    maxSizeMB: 4,
 });
 
