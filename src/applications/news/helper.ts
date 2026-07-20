@@ -3,7 +3,7 @@ import { createUploader } from "../../domain/errors";
 
 export const imageUpload = createUploader({
     allowedMimeTypes: ['image/jpeg', 'image/png', 'image/jpg'],
-    maxSizeMB: 5,
+    maxSizeMB: 4,
 });
 
 export const getPublicUrlFromPath = (filePath: string) => {
